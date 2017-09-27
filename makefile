@@ -1,2 +1,2 @@
-all: main.c acesso.c
-	gcc -Wall main.c acesso.c -g
+all: wavinfo.c acesso.c
+	gcc -Wall wavinfo.c acesso.c -g

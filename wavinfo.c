@@ -14,7 +14,7 @@ int main()
         exit(0);
     }
 
-
+    puts((char*)WAV.ChunkID);
 
     exit(1);
 }
