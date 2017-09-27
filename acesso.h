@@ -13,7 +13,7 @@ typedef struct audio
         unsigned short BitsPerSample;
         signed char SubChunk2ID[5];
         unsigned int SubChunk2Size;
-        signed long *Data;
+        signed int *Data;
     } audio_t;
 
-signed char LoadWAV();
+signed char LoadAudio(audio_t aud);

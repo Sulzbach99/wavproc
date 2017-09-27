@@ -2,5 +2,6 @@
 
 int main()
 {
-    LoadWAV();
+    audio_t WAV;
+    LoadAudio(WAV);
 }

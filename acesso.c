@@ -3,24 +3,33 @@
 #include <string.h>
 #include "acesso.h"
 
-// TODO: Verificar se o arquivo é compatível
-signed char LoadWAV(audio_t WAV)
+signed char GenMat(signed int *ptr, unsigned int lin, unsigned int col)
 {
-    fread(WAV.ChunkID, 4, 1, stdin);
-    fread(&WAV.ChunkSize, 4, 1, stdin);
-    fread(WAV.Format, 4, 1, stdin);
-    fread(WAV.SubChunk1ID, 4, 1, stdin);
-    fread(&WAV.SubChunk1Size, 4, 1, stdin);
-    fread(&WAV.AudioFormat, 2, 1, stdin);
-    fread(&WAV.ChannelNr, 2, 1, stdin);
-    fread(&WAV.SampleRate, 4, 1, stdin);
-    fread(&WAV.ByteRate, 4, 1, stdin);
-    fread(&WAV.BlockAlign, 2, 1, stdin);
-    fread(&WAV.BitsPerSample, 2, 1, stdin);
-    fread(WAV.SubChunk2ID, 4, 1, stdin);
-    fread(&WAV.SubChunk2Size, 4, 1, stdin);
+    ptr = malloc(lin * sizeof(int*));
 
-    WAV.Data = malloc(WAV.SubChunk2Size);
+    ptr[0] = malloc(lin * col * sizeof(int));
+
+    for (unsigned int i = 1; i < lin; i++)
+        ptr[i] = ptr[0] + i * col;
+
+    return 1;
+}
+
+signed char LoadAudio(audio_t aud)
+{
+    fread(aud.ChunkID, sizeof(char), 1, stdin);
+    fread(&aud.ChunkSize, sizeof(int), 1, stdin);
+    fread(aud.Format, sizeof(char), 1, stdin);
+    fread(aud.SubChunk1ID, sizeof(char), 1, stdin);
+    fread(&aud.SubChunk1Size, sizeof(int), 1, stdin);
+    fread(&aud.AudioFormat, sizeof(short), 1, stdin);
+    fread(&aud.ChannelNr, sizeof(short), 1, stdin);
+    fread(&aud.SampleRate, sizeof(int), 1, stdin);
+    fread(&aud.ByteRate, sizeof(int), 1, stdin);
+    fread(&aud.BlockAlign, sizeof(short), 1, stdin);
+    fread(&aud.BitsPerSample, sizeof(short), 1, stdin);
+    fread(aud.SubChunk2ID, sizeof(char), 1, stdin);
+    fread(&aud.SubChunk2Size, sizeof(int), 1, stdin);
 
     return 1;
 }
