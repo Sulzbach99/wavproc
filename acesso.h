@@ -1,9 +1,9 @@
 typedef struct audio
     {
-        const char *ChunkID;
+        signed char ChunkID[5];
         unsigned int ChunkSize;
-        const char *Format;
-        const char *SubChunk1ID;
+        signed char Format[5];
+        signed char SubChunk1ID[5];
         unsigned int SubChunk1Size;
         unsigned short AudioFormat;
         unsigned short ChannelNr;
@@ -11,7 +11,9 @@ typedef struct audio
         unsigned int ByteRate;
         unsigned short BlockAlign;
         unsigned short BitsPerSample;
-        const char *SubChunk2ID;
+        signed char SubChunk2ID[5];
         unsigned int SubChunk2Size;
         signed long *Data;
     } audio_t;
+
+signed char LoadWAV();
