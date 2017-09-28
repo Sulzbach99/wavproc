@@ -16,7 +16,7 @@ typedef struct audio
         unsigned short BitsPerSample;
         signed char SubChunk2ID[5];
         unsigned int SubChunk2Size;
-        signed int **Data;
+        signed short **Data;
 
     } audio_t;
 

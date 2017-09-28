@@ -28,7 +28,7 @@ void LoadAudio()
         WAV.Data[k] = malloc(WAV.SubChunk2Size / WAV.ChannelNr);
 
     // Leitura de cada elemento da matriz:
-    for (unsigned int j = 0; j < WAV.SubChunk2Size / (sizeof(int) * WAV.ChannelNr); j++)
+    for (unsigned int j = 0; j < WAV.SubChunk2Size / WAV.BlockAlign; j++)
         for (unsigned int i = 0; i < WAV.ChannelNr; i++)
             fread(&WAV.Data[i][j], sizeof(int), 1, stdin);
 }

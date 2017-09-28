@@ -20,7 +20,7 @@ int main()
     printf("bits_per_sample: %i\n", WAV.BitsPerSample);
     printf("data tag       : \"%s\"\n", WAV.SubChunk2ID);
     printf("data size      : %i\n", WAV.SubChunk2Size);
-    // TODO: samples/channel
+    printf("samples/channel: %i\n", WAV.SubChunk2Size / WAV.BlockAlign);
 
     exit(1);
 }
