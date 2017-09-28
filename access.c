@@ -5,30 +5,36 @@
 
 void LoadAudio()
 {
-    // Leitura do cabeçalho do arquivo de áudio:
-    fread(WAV.ChunkID, sizeof(char), 4, stdin);
-    fread(&WAV.ChunkSize, sizeof(int), 1, stdin);
-    fread(WAV.Format, sizeof(char), 4, stdin);
-    fread(WAV.SubChunk1ID, sizeof(char), 4, stdin);
-    fread(&WAV.SubChunk1Size, sizeof(int), 1, stdin);
-    fread(&WAV.AudioFormat, sizeof(short), 1, stdin);
-    fread(&WAV.ChannelNr, sizeof(short), 1, stdin);
-    fread(&WAV.SampleRate, sizeof(int), 1, stdin);
-    fread(&WAV.ByteRate, sizeof(int), 1, stdin);
-    fread(&WAV.BlockAlign, sizeof(short), 1, stdin);
-    fread(&WAV.BitsPerSample, sizeof(short), 1, stdin);
-    fread(WAV.SubChunk2ID, sizeof(char), 4, stdin);
-    fread(&WAV.SubChunk2Size, sizeof(int), 1, stdin);
+    FILE *INPUT;
+    
+    INPUT = fopen(ARGS.Input, "r");
 
-    WAV.ChunkID[4] = WAV.Format[4] = WAV.SubChunk1ID[4] = WAV.SubChunk2ID[4] = 0;
+    // Leitura do cabeçalho do arquivo de áudio:
+    fread(AUDIO.ChunkID, sizeof(char), 4, INPUT);
+    fread(&AUDIO.ChunkSize, sizeof(int), 1, INPUT);
+    fread(AUDIO.Format, sizeof(char), 4, INPUT);
+    fread(AUDIO.SubChunk1ID, sizeof(char), 4, INPUT);
+    fread(&AUDIO.SubChunk1Size, sizeof(int), 1, INPUT);
+    fread(&AUDIO.AudioFormat, sizeof(short), 1, INPUT);
+    fread(&AUDIO.ChannelNr, sizeof(short), 1, INPUT);
+    fread(&AUDIO.SampleRate, sizeof(int), 1, INPUT);
+    fread(&AUDIO.ByteRate, sizeof(int), 1, INPUT);
+    fread(&AUDIO.BlockAlign, sizeof(short), 1, INPUT);
+    fread(&AUDIO.BitsPerSample, sizeof(short), 1, INPUT);
+    fread(AUDIO.SubChunk2ID, sizeof(char), 4, INPUT);
+    fread(&AUDIO.SubChunk2Size, sizeof(int), 1, INPUT);
+
+    AUDIO.ChunkID[4] = AUDIO.Format[4] = AUDIO.SubChunk1ID[4] = AUDIO.SubChunk2ID[4] = 0;
 
     // Alocação dinâmica de uma matriz onde cada linha é um canal e cada coluna é uma amostra:
-    WAV.Data = malloc(WAV.ChannelNr * sizeof(int*));
-    for (unsigned int k = 0; k < WAV.ChannelNr; k++)
-        WAV.Data[k] = malloc(WAV.SubChunk2Size / WAV.ChannelNr);
+    AUDIO.Data = malloc(AUDIO.ChannelNr * sizeof(int*));
+    for (unsigned int k = 0; k < AUDIO.ChannelNr; k++)
+        AUDIO.Data[k] = malloc(AUDIO.SubChunk2Size / AUDIO.ChannelNr);
 
     // Leitura de cada elemento da matriz:
-    for (unsigned int j = 0; j < WAV.SubChunk2Size / WAV.BlockAlign; j++)
-        for (unsigned int i = 0; i < WAV.ChannelNr; i++)
-            fread(&WAV.Data[i][j], sizeof(int), 1, stdin);
+    for (unsigned int j = 0; j < AUDIO.SubChunk2Size / AUDIO.BlockAlign; j++)
+        for (unsigned int i = 0; i < AUDIO.ChannelNr; i++)
+            fread(&AUDIO.Data[i][j], sizeof(int), 1, INPUT);
+
+    fclose(INPUT);
 }
