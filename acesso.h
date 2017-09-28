@@ -17,4 +17,4 @@ typedef struct audio
 
     } audio_t;
 
-signed char LoadAudio(audio_t aud);
+signed char LoadAudio(audio_t *aud);

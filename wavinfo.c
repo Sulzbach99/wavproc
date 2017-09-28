@@ -7,14 +7,12 @@ int main()
     audio_t WAV;
     signed char setup;
 
-    setup = LoadAudio(WAV);
+    setup = LoadAudio(&WAV);
     if (!setup)
     {
         perror("LoadAudio Error");
         exit(0);
     }
-
-    puts((char*)WAV.ChunkID);
 
     exit(1);
 }
