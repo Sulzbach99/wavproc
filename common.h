@@ -1,8 +1,11 @@
+#ifndef __COMMON__
+#define __COMMON__
+
 typedef struct audio
     {
         signed char ChunkID[5];
         unsigned int ChunkSize;
-        signed char Format[4];
+        signed char Format[5];
         signed char SubChunk1ID[5];
         unsigned int SubChunk1Size;
         unsigned short AudioFormat;
@@ -17,4 +20,6 @@ typedef struct audio
 
     } audio_t;
 
-signed char LoadAudio(audio_t *aud);
+audio_t WAV;
+
+#endif
