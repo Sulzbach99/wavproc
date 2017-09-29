@@ -6,9 +6,18 @@
 
 int main(int argc, char *argv[])
 {
-    TreatArgs(argc, argv);
+    if (!TreatArgs(argc, argv))
+    {
+        fprintf(stderr, "Could not understand argument(s)\n");
+        fprintf(stderr, "e.g. wavinfo -i [input] -o [output]\n");
+        exit(0);
+    }
 
-    LoadAudio();
+    if (!LoadAudio())
+    {
+        fprintf(stderr, "File is unsupported or corrupted\n");
+        exit(0);
+    }
 
     printf("riff tag       : \"%s\"\n", AUDIO.ChunkID);
     printf("riff size      : %i\n", AUDIO.ChunkSize);

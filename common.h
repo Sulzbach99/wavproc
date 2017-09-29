@@ -12,10 +12,10 @@ args_t ARGS;
 
 typedef struct audio
     {
-        signed char ChunkID[5];
+        char ChunkID[5];
         unsigned int ChunkSize;
-        signed char Format[5];
-        signed char SubChunk1ID[5];
+        char Format[5];
+        char SubChunk1ID[5];
         unsigned int SubChunk1Size;
         unsigned short AudioFormat;
         unsigned short ChannelNr;
@@ -23,7 +23,7 @@ typedef struct audio
         unsigned int ByteRate;
         unsigned short BlockAlign;
         unsigned short BitsPerSample;
-        signed char SubChunk2ID[5];
+        char SubChunk2ID[5];
         unsigned int SubChunk2Size;
         signed short **Data;
 
