@@ -6,13 +6,6 @@
 
 char LoadAudio()
 {
-    FILE *INPUT;
-
-    if (strcmp(ARGS.Input, "stdin"))
-        INPUT = fopen(ARGS.Input, "r");
-    else
-        INPUT = stdin;
-
     AUDIO.ChunkID[4] = AUDIO.Format[4] = AUDIO.SubChunk1ID[4] = AUDIO.SubChunk2ID[4] = 0;
 
     // Leitura do cabeçalho do arquivo de áudio:

@@ -19,20 +19,21 @@ int main(int argc, char *argv[])
         exit(0);
     }
 
-    printf("riff tag       : \"%s\"\n", AUDIO.ChunkID);
-    printf("riff size      : %i\n", AUDIO.ChunkSize);
-    printf("wave tag       : \"%s\"\n", AUDIO.Format);
-    printf("form tag       : \"%s\"\n", AUDIO.SubChunk1ID);
-    printf("fmt_size       : %i\n", AUDIO.SubChunk1Size);
-    printf("audio_format   : %i\n", AUDIO.AudioFormat);
-    printf("num_channels   : %i\n", AUDIO.ChannelNr);
-    printf("sample_rate    : %i\n", AUDIO.SampleRate);
-    printf("byte_rate      : %i\n", AUDIO.ByteRate);
-    printf("block_align    : %i\n", AUDIO.BlockAlign);
-    printf("bits_per_sample: %i\n", AUDIO.BitsPerSample);
-    printf("data tag       : \"%s\"\n", AUDIO.SubChunk2ID);
-    printf("data size      : %i\n", AUDIO.SubChunk2Size);
-    printf("samples/channel: %i\n", AUDIO.SubChunk2Size / AUDIO.BlockAlign);
+    fprintf(OUTPUT, "riff tag       : \"%s\"\n", AUDIO.ChunkID);
+    fprintf(OUTPUT, "riff size      : %i\n", AUDIO.ChunkSize);
+    fprintf(OUTPUT, "wave tag       : \"%s\"\n", AUDIO.Format);
+    fprintf(OUTPUT, "form tag       : \"%s\"\n", AUDIO.SubChunk1ID);
+    fprintf(OUTPUT, "fmt_size       : %i\n", AUDIO.SubChunk1Size);
+    fprintf(OUTPUT, "audio_format   : %i\n", AUDIO.AudioFormat);
+    fprintf(OUTPUT, "num_channels   : %i\n", AUDIO.ChannelNr);
+    fprintf(OUTPUT, "sample_rate    : %i\n", AUDIO.SampleRate);
+    fprintf(OUTPUT, "byte_rate      : %i\n", AUDIO.ByteRate);
+    fprintf(OUTPUT, "block_align    : %i\n", AUDIO.BlockAlign);
+    fprintf(OUTPUT, "bits_per_sample: %i\n", AUDIO.BitsPerSample);
+    fprintf(OUTPUT, "data tag       : \"%s\"\n", AUDIO.SubChunk2ID);
+    fprintf(OUTPUT, "data size      : %i\n", AUDIO.SubChunk2Size);
+    fprintf(OUTPUT, "samples/channel: %i\n", AUDIO.SubChunk2Size / AUDIO.BlockAlign);
 
+    fclose(OUTPUT);
     exit(1);
 }

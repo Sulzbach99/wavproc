@@ -6,14 +6,14 @@
 
 char TreatArgs(int argc, char *argv[])
 {
-    strcpy(ARGS.Input, "stdin");
-    strcpy(ARGS.Output, "stdout");
+    INPUT = stdin;
+    OUTPUT = stdout;
 
     for (unsigned int i = 1; i <= argc - 1; i += 2)
         if (!strcmp(argv[i], "-i"))
-            strcpy(ARGS.Input, argv[i+1]);
+            INPUT = fopen(argv[i+1], "r");
         else if (!strcmp(argv[i], "-o"))
-            strcpy(ARGS.Output, argv[i+1]);
+            OUTPUT = fopen(argv[i+1], "w");
         else
             return 0;
 

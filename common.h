@@ -1,15 +1,6 @@
 #ifndef __COMMON__
 #define __COMMON__
 
-typedef struct args
-    {
-        char Input[50];
-        char Output[50];
-
-    } args_t;
-
-args_t ARGS;
-
 typedef struct audio
     {
         char ChunkID[5];
@@ -30,5 +21,8 @@ typedef struct audio
     } audio_t;
 
 audio_t AUDIO;
+
+FILE *INPUT;
+FILE *OUTPUT;
 
 #endif
