@@ -35,7 +35,7 @@ char LoadAudio()
     // Leitura de cada elemento da matriz:
     for (unsigned int j = 0; j < AUDIO.SubChunk2Size / AUDIO.BlockAlign; j++)
         for (unsigned int i = 0; i < AUDIO.ChannelNr; i++)
-            fread(&AUDIO.Data[i][j], sizeof(int), 1, INPUT);
+            fread(&AUDIO.Data[i][j], sizeof(short), 1, INPUT);
 
     fclose(INPUT);
     return 1;
