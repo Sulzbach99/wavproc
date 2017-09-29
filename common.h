@@ -24,5 +24,6 @@ audio_t AUDIO;
 
 FILE *INPUT;
 FILE *OUTPUT;
+float Volume;
 
 #endif
