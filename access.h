@@ -2,5 +2,6 @@
 #define __ACCESS__
 
 char LoadAudio();
+void Write();
 
 #endif

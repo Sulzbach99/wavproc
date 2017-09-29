@@ -40,3 +40,26 @@ char LoadAudio()
     fclose(INPUT);
     return 1;
 }
+
+void Write()
+{
+    fwrite(AUDIO.ChunkID, sizeof(char), 4, OUTPUT);
+    fwrite(&AUDIO.ChunkSize, sizeof(int), 1, OUTPUT);
+    fwrite(AUDIO.Format, sizeof(char), 4, OUTPUT);
+    fwrite(AUDIO.SubChunk1ID, sizeof(char), 4, OUTPUT);
+    fwrite(&AUDIO.SubChunk1Size, sizeof(int), 1, OUTPUT);
+    fwrite(&AUDIO.AudioFormat, sizeof(short), 1, OUTPUT);
+    fwrite(&AUDIO.ChannelNr, sizeof(short), 1, OUTPUT);
+    fwrite(&AUDIO.SampleRate, sizeof(int), 1, OUTPUT);
+    fwrite(&AUDIO.ByteRate, sizeof(int), 1, OUTPUT);
+    fwrite(&AUDIO.BlockAlign, sizeof(short), 1, OUTPUT);
+    fwrite(&AUDIO.BitsPerSample, sizeof(short), 1, OUTPUT);
+    fwrite(AUDIO.SubChunk2ID, sizeof(char), 4, OUTPUT);
+    fwrite(&AUDIO.SubChunk2Size, sizeof(int), 1, OUTPUT);
+
+    for (unsigned int j = 0; j < AUDIO.SubChunk2Size / AUDIO.BlockAlign; j++)
+        for (unsigned int i = 0; i < AUDIO.ChannelNr; i++)
+            fwrite(&AUDIO.Data[i][j], sizeof(short), 1, OUTPUT);
+    
+    fclose(OUTPUT);
+}
