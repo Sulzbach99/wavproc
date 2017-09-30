@@ -3,7 +3,7 @@
 #include "common.h"
 #include "audiotreat.h"
 
-void Revert()
+void Rev()
 {
     signed short aux;
     unsigned int a, b;
@@ -24,9 +24,26 @@ void Revert()
     }
 }
 
-void Mult()
+void Vol()
 {
     for (unsigned int i = 0; i < AUDIO.ChannelNr; i++)
         for (unsigned int j = 0; j < AUDIO.SubChunk2Size / AUDIO.BlockAlign; j++)
             AUDIO.Data[i][j] *= Volume;
+}
+
+void AutoVol()
+{
+    signed short max = AUDIO.Data[0][0];
+
+    for (unsigned int k = 1; k < AUDIO.SubChunk2Size / AUDIO.BlockAlign; k++)
+        if (AUDIO.Data[0][k] > max)
+            max = AUDIO.Data[0][k];
+
+    for (unsigned int i = 0; i < AUDIO.ChannelNr; i++)
+        for (unsigned int j = 0; j < AUDIO.SubChunk2Size / AUDIO.BlockAlign; j++)
+            AUDIO.Data[i][j] = (AUDIO.Data[i][j] * 32767) / max;
+}
+
+void Del()
+{
 }

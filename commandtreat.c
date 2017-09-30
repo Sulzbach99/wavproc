@@ -17,6 +17,8 @@ char TreatArgs(int argc, char *argv[])
             OUTPUT = fopen(argv[i+1], "w");
         else if (!strcmp(argv[i], "-l"))
             Volume = atof(argv[i+1]);
+        else if (!strcmp(argv[i], "-t"))
+            Delay = atof(argv[i+1]);
         else
             return 0;
 

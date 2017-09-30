@@ -1,7 +1,8 @@
 #ifndef __AUDIOTREAT__
 #define __AUDIOTREAT__
 
-void Revert();
-void Mult();
+void Rev();
+void Vol();
+void AutoVol();
 
 #endif
