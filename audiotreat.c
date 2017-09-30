@@ -3,17 +3,23 @@
 #include "common.h"
 #include "audiotreat.h"
 
-void Revert(signed short *v, unsigned int a, unsigned int b)
+void Revert()
 {
-    short aux;
+    signed short aux;
+    unsigned int a, b;
 
-    while (a < b)
+    for (unsigned int k = 0; k < AUDIO.ChannelNr; k++)
     {
-        aux = v[a];
-        v[a] = v[b];
-        v[b] = aux;
+        a = 0;
+        b = AUDIO.SubChunk2Size / AUDIO.BlockAlign - 1;
+        while (a < b)
+        {
+            aux = AUDIO.Data[k][a];
+            AUDIO.Data[k][a] = AUDIO.Data[k][b];
+            AUDIO.Data[k][b] = aux;
 
-        a++;
-        b--;
+            a++;
+            b--;
+        }
     }
 }
