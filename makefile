@@ -1,4 +1,4 @@
-all: wavinfo wavrev wavvol wavautovol
+all: wavinfo wavrev wavvol wavautovol wavwide
 
 wavinfo: wavinfo.c common.h access.c access.h commandtreat.c commandtreat.h
 	gcc -Wall wavinfo.c access.c commandtreat.c -o wavinfo -g
@@ -11,3 +11,6 @@ wavvol: wavvol.c common.h access.c access.h commandtreat.c commandtreat.h audiot
 
 wavautovol: wavautovol.c common.h access.c access.h commandtreat.c commandtreat.h audiotreat.c audiotreat.h
 	gcc -Wall wavautovol.c access.c commandtreat.c audiotreat.c -o wavautovol -g
+
+wavwide: wavwide.c common.h access.c access.h commandtreat.c commandtreat.h audiotreat.c audiotreat.h
+	gcc -Wall wavwide.c access.c commandtreat.c audiotreat.c -o wavwide -g

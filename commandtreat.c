@@ -14,17 +14,18 @@ static int Comp(const void *a, const void *b)
         return -1;
 }
 
-char TreatArgs(int argc, char *argv[], char *ARGS, arguments_t *ARGUMENTS)
+char TreatArgs(int argc, char *argv[], char *POSSIBLE_ARGS, arguments_t *ARGUMENTS, float *Setting)
 {
     ARGUMENTS->INPUT = stdin;
     ARGUMENTS->OUTPUT = stdout;
     ARGUMENTS->Revert = 0;
     ARGUMENTS->Volume = 1.0;
     ARGUMENTS->AutoVol = 0;
+    ARGUMENTS->Wide = 1.0;
 
     for (unsigned int i = 1; i <= argc - 1; i += 2)
     {
-        if (!bsearch(&argv[i][1], ARGS, 4, sizeof(char), Comp))
+        if (!bsearch(&argv[i][1], POSSIBLE_ARGS, 4, sizeof(char), Comp))
             return 0;
 
         switch (argv[i][1])
@@ -41,7 +42,7 @@ char TreatArgs(int argc, char *argv[], char *ARGS, arguments_t *ARGUMENTS)
             }
             case 'l':
             {
-                ARGUMENTS->Volume = atof(argv[i+1]);
+                *Setting = atof(argv[i+1]);
                 break;
             }
         }

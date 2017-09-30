@@ -25,8 +25,13 @@ typedef struct arguments
         FILE *INPUT;
         FILE *OUTPUT;
         char Revert;
-        float Volume;
         char AutoVol;
+        char Cat;
+        char Mix;
+        float Volume;
+        float Delay;
+        float Aten;
+        float Wide;
 
     } arguments_t;
 

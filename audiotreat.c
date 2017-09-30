@@ -41,4 +41,17 @@ void TreatAudio(audio_t *AUDIO, arguments_t *ARGUMENTS)
         for (unsigned int i = 0; i < AUDIO->ChannelNr; i++)
             for (unsigned int j = 0; j < AUDIO->SubChunk2Size / AUDIO->BlockAlign; j++)
                 AUDIO->Data[i][j] *= ARGUMENTS->Volume;
+
+    if (ARGUMENTS->Wide != 1.0)
+    {
+        signed short diff;
+
+        for (unsigned int k = 0; k < AUDIO->SubChunk2Size / AUDIO->BlockAlign; k++)
+        {
+            diff = AUDIO->Data[1][k] - AUDIO->Data[0][k];
+
+            AUDIO->Data[1][k] += ARGUMENTS->Wide * diff;
+            AUDIO->Data[0][k] -= ARGUMENTS->Wide * diff;
+        }
+    }
 }

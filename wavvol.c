@@ -5,14 +5,14 @@
 #include "access.h"
 #include "audiotreat.h"
 
-#define ARGS "ilox"
+#define POSSIBLE_ARGS "ilox"
 
 int main(int argc, char *argv[])
 {
     audio_t AUDIO;
     arguments_t ARGUMENTS;
 
-    if (!TreatArgs(argc, argv, ARGS, &ARGUMENTS))
+    if (!TreatArgs(argc, argv, POSSIBLE_ARGS, &ARGUMENTS, &ARGUMENTS.Volume))
     {
         fprintf(stderr, "Could not understand argument(s)\n");
         exit(0);
