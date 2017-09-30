@@ -4,15 +4,19 @@
 #include "commandtreat.h"
 #include "access.h"
 
+#define ARGS "ioxx"
+
 int main(int argc, char *argv[])
 {
-    if (!TreatArgs(argc, argv))
+    audio_t AUDIO;
+
+    if (!TreatArgs(argc, argv, ARGS))
     {
         fprintf(stderr, "Could not understand argument(s)\n");
         exit(0);
     }
 
-    if (!LoadAudio())
+    if (!LoadAudio(&AUDIO))
     {
         fprintf(stderr, "File is unsupported or corrupted\n");
         exit(0);

@@ -20,8 +20,6 @@ typedef struct audio
 
     } audio_t;
 
-audio_t AUDIO;
-
 FILE *INPUT;
 FILE *OUTPUT;
 float Volume;

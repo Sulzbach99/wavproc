@@ -5,23 +5,27 @@
 #include "access.h"
 #include "audiotreat.h"
 
+#define ARGS "ilox"
+
 int main(int argc, char *argv[])
 {
-    if (!TreatArgs(argc, argv))
+    audio_t AUDIO;
+
+    if (!TreatArgs(argc, argv, ARGS))
     {
         fprintf(stderr, "Could not understand argument(s)\n");
         exit(0);
     }
 
-    if (!LoadAudio())
+    if (!LoadAudio(&AUDIO))
     {
         fprintf(stderr, "File is unsupported or corrupted\n");
         exit(0);
     }
 
-    Vol();
+    Vol(&AUDIO);
 
-    Write();
+    Write(&AUDIO);
 
     exit(1);
 }

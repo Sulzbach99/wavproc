@@ -1,6 +1,6 @@
 #ifndef __COMMANDTREAT__
 #define __COMMANDTREAT__
 
-char TreatArgs(int argc, char *argv[]);
+char TreatArgs(int argc, char *argv[], char *ARGS);
 
 #endif
