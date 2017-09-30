@@ -9,7 +9,6 @@ int main(int argc, char *argv[])
     if (!TreatArgs(argc, argv))
     {
         fprintf(stderr, "Could not understand argument(s)\n");
-        fprintf(stderr, "e.g. wavinfo -i [input] -o [output]\n");
         exit(0);
     }
 

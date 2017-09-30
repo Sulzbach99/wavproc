@@ -23,3 +23,10 @@ void Revert()
         }
     }
 }
+
+void Mult()
+{
+    for (unsigned int i = 0; i < AUDIO.ChannelNr; i++)
+        for (unsigned int j = 0; j < AUDIO.SubChunk2Size / AUDIO.BlockAlign; j++)
+            AUDIO.Data[i][j] *= Volume;
+}
