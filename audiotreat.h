@@ -1,8 +1,6 @@
 #ifndef __AUDIOTREAT__
 #define __AUDIOTREAT__
 
-void Rev(audio_t *AUDIO);
-void Vol(audio_t *AUDIO);
-void AutoVol(audio_t *AUDIO);
+void TreatAudio(audio_t *AUDIO, arguments_t *ARGUMENTS);
 
 #endif

@@ -14,11 +14,13 @@ static int Comp(const void *a, const void *b)
         return -1;
 }
 
-char TreatArgs(int argc, char *argv[], char *ARGS)
+char TreatArgs(int argc, char *argv[], char *ARGS, arguments_t *ARGUMENTS)
 {
-    INPUT = stdin;
-    OUTPUT = stdout;
-    Volume = 1.0;
+    ARGUMENTS->INPUT = stdin;
+    ARGUMENTS->OUTPUT = stdout;
+    ARGUMENTS->Revert = 0;
+    ARGUMENTS->Volume = 1.0;
+    ARGUMENTS->AutoVol = 0;
 
     for (unsigned int i = 1; i <= argc - 1; i += 2)
     {
@@ -29,17 +31,17 @@ char TreatArgs(int argc, char *argv[], char *ARGS)
         {
             case 'i':
             {
-                INPUT = fopen(argv[i+1], "r");
+                ARGUMENTS->INPUT = fopen(argv[i+1], "r");
                 break;
             }
             case 'o':
             {
-                OUTPUT = fopen(argv[i+1], "w");
+                ARGUMENTS->OUTPUT = fopen(argv[i+1], "w");
                 break;
             }
             case 'l':
             {
-                Volume = atof(argv[i+1]);
+                ARGUMENTS->Volume = atof(argv[i+1]);
                 break;
             }
         }

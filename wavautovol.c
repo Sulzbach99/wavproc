@@ -10,22 +10,24 @@
 int main(int argc, char *argv[])
 {
     audio_t AUDIO;
+    arguments_t ARGUMENTS;
 
-    if (!TreatArgs(argc, argv, ARGS))
+    if (!TreatArgs(argc, argv, ARGS, &ARGUMENTS))
     {
         fprintf(stderr, "Could not understand argument(s)\n");
         exit(0);
     }
 
-    if (!LoadAudio(&AUDIO))
+    if (!LoadAudio(&AUDIO, &ARGUMENTS))
     {
         fprintf(stderr, "File is unsupported or corrupted\n");
         exit(0);
     }
 
-    AutoVol(&AUDIO);
+    ARGUMENTS.AutoVol = 1;
+    TreatAudio(&AUDIO, &ARGUMENTS);
 
-    Write(&AUDIO);
+    Write(&AUDIO, &ARGUMENTS);
 
     exit(1);
 }

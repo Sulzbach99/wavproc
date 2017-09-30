@@ -20,9 +20,14 @@ typedef struct audio
 
     } audio_t;
 
-FILE *INPUT;
-FILE *OUTPUT;
-float Volume;
-float Delay;
+typedef struct arguments
+    {
+        FILE *INPUT;
+        FILE *OUTPUT;
+        char Revert;
+        float Volume;
+        char AutoVol;
+
+    } arguments_t;
 
 #endif
