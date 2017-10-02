@@ -34,7 +34,7 @@ void TreatAudio(audio_t *AUDIO, arguments_t *ARGUMENTS)
             if (AUDIO->Data[0][k] > max)
                 max = AUDIO->Data[0][k];
 
-        ARGUMENTS->Volume = 32767 / max;
+        ARGUMENTS->Volume = 32767.0 / max;
     }
 
     if (ARGUMENTS->Volume != 1.0)
