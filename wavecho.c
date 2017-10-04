@@ -5,23 +5,25 @@
 #include "access.h"
 #include "audiotreat.h"
 
+#define POSSIBLE_ARGS "ilot"
+
 int main(int argc, char *argv[])
 {
-    if (!TreatArgs(argc, argv))
-    {
-        fprintf(stderr, "Could not understand argument(s)\n");
-        exit(0);
-    }
+    audio_t AUDIO;
+    arguments_t ARGUMENTS;
 
-    if (!LoadAudio())
+    PreSet(&ARGUMENTS);
+    TreatArgs(argc, argv, POSSIBLE_ARGS, &ARGUMENTS, &ARGUMENTS.Aten, &ARGUMENTS.Delay);
+
+    if (!LoadAudio(&AUDIO, &ARGUMENTS))
     {
         fprintf(stderr, "File is unsupported or corrupted\n");
         exit(0);
     }
 
-    Vol();
+    TreatAudio(&AUDIO, &ARGUMENTS);
 
-    Write();
+    Write(&AUDIO, &ARGUMENTS);
 
     exit(1);
 }

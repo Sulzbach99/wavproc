@@ -12,11 +12,9 @@ int main(int argc, char *argv[])
     audio_t AUDIO;
     arguments_t ARGUMENTS;
 
-    if (!TreatArgs(argc, argv, POSSIBLE_ARGS, &ARGUMENTS, &ARGUMENTS.Wide))
-    {
-        fprintf(stderr, "Could not understand argument(s)\n");
-        exit(0);
-    }
+    PreSet(&ARGUMENTS);
+    SetInputs(&ARGUMENTS);
+    TreatArgs(argc, argv, POSSIBLE_ARGS, &ARGUMENTS, &ARGUMENTS.Wide, NULL);
 
     if (!LoadAudio(&AUDIO, &ARGUMENTS))
     {
