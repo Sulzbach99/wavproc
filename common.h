@@ -22,9 +22,8 @@ typedef struct audio
 
 typedef struct arguments
     {
-        FILE **INPUTS;
+        FILE *INPUT;
         FILE *OUTPUT;
-        char NumInputs;
         char Revert;
         char AutoVol;
         char Cat;

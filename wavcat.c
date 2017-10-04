@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "common.h"
 #include "commandtreat.h"
 #include "access.h"
@@ -9,24 +10,38 @@
 
 int main(int argc, char *argv[])
 {
-    audio_t AUDIO;
-    arguments_t ARGUMENTS;
+    audio_t *AUDIO;
+    arguments_t *ARGUMENTS;
+    unsigned int cont;
 
-    PreSet(&ARGUMENTS);
     for (unsigned int k = 2; argv[k][0] != '-'; k++)
-        ARGUMENTS.NumInputs = k - 2;
-    SetInputs(&ARGUMENTS);
-    TreatArgs(argc, argv, POSSIBLE_ARGS, &ARGUMENTS, NULL, NULL);
+        cont = k - 2;
 
-    if (!LoadAudio(&AUDIO, &ARGUMENTS))
+    AUDIO = malloc(cont * sizeof(audio_t));
+    ARGUMENTS = malloc(cont * sizeof(arguments_t));
+
+    for (unsigned int l = 0; l < cont; l++)
+        PreSet(&ARGUMENTS[l]);
+
+    for (unsigned int m = 0; m < cont; m++)
     {
-        fprintf(stderr, "File is unsupported or corrupted\n");
-        exit(0);
+        TreatArgs(argc, argv, POSSIBLE_ARGS, &ARGUMENTS[m], NULL, NULL);
+        for (unsigned int n = 2; n < --argc; n++)
+            strcpy(argv[n], argv[n+1]);
     }
 
-    TreatAudio(&AUDIO, &ARGUMENTS);
+    for (unsigned int o; o < cont; o++)
+        if (!LoadAudio(&AUDIO[o], &ARGUMENTS[o]))
+        {
+            fprintf(stderr, "File is unsupported or corrupted\n");
+            exit(0);
+        }
 
-    Write(&AUDIO, &ARGUMENTS);
+    for (unsigned int p; p < cont; p++)
+        TreatAudio(&AUDIO[p], &ARGUMENTS[p]);
+
+    for (unsigned int q; q < cont; q++)
+        Write(&AUDIO[q], &ARGUMENTS[q]);
 
     exit(1);
 }

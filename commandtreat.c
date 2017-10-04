@@ -5,8 +5,8 @@
 
 void PreSet(arguments_t *ARGUMENTS)
 {
+    ARGUMENTS->INPUT = stdout;
     ARGUMENTS->OUTPUT = stdout;
-    ARGUMENTS->NumInputs = 1;
     ARGUMENTS->Revert = 0;
     ARGUMENTS->AutoVol = 0;
     ARGUMENTS->Volume = 1.0;
@@ -17,8 +17,6 @@ void PreSet(arguments_t *ARGUMENTS)
 
 void SetInputs(arguments_t *ARGUMENTS)
 {
-    ARGUMENTS->INPUTS = malloc(ARGUMENTS->NumInputs * sizeof(FILE*));
-    ARGUMENTS->INPUTS[0] = stdin;
 }
 
 void TreatArgs(int argc, char *argv[], char *POSSIBLE_ARGS, arguments_t *ARGUMENTS, float *Setting1, float *Setting2)
@@ -31,8 +29,7 @@ void TreatArgs(int argc, char *argv[], char *POSSIBLE_ARGS, arguments_t *ARGUMEN
             {
                 case 'i':
                 {
-                    for (unsigned int k = 0; k < ARGUMENTS->NumInputs; k++)
-                        ARGUMENTS->INPUTS[k] = fopen(argv[i+1], "r");
+                    ARGUMENTS->INPUT = fopen(argv[i+1], "r");
                     break;
                 }
                 case 'o':
