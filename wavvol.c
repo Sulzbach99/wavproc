@@ -11,6 +11,8 @@ int main(int argc, char *argv[])
 {
     audio_t AUDIO;
 
+    AllocAudio(&AUDIO, 1);
+
     PreSet(&AUDIO.ARGUMENTS);
     SetInputs(&AUDIO.ARGUMENTS);
     TreatArgs(argc, argv, POSSIBLE_ARGS, &AUDIO.ARGUMENTS, &AUDIO.ARGUMENTS.Volume, NULL);

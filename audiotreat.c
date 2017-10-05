@@ -5,7 +5,7 @@
 
 void TreatAudio(audio_t *AUDIO)
 {
-    if (AUDIO->ARGUMENTS->Revert)
+    if (AUDIO->ARGUMENTS.Revert)
     {
         signed short aux;
         unsigned int a, b;
@@ -26,7 +26,7 @@ void TreatAudio(audio_t *AUDIO)
         }
     }
 
-    if (AUDIO->ARGUMENTS->AutoVol)
+    if (AUDIO->ARGUMENTS.AutoVol)
     {
         signed short max = AUDIO->Data[0][0];
 
@@ -34,15 +34,15 @@ void TreatAudio(audio_t *AUDIO)
             if (AUDIO->Data[0][k] > max)
                 max = AUDIO->Data[0][k];
 
-        AUDIO->ARGUMENTS->Volume = 32767.0 / max;
+        AUDIO->ARGUMENTS.Volume = 32767.0 / max;
     }
 
-    if (AUDIO->ARGUMENTS->Volume != 1.0)
+    if (AUDIO->ARGUMENTS.Volume != 1.0)
         for (unsigned int i = 0; i < AUDIO->ChannelNr; i++)
             for (unsigned int j = 0; j < AUDIO->SubChunk2Size / AUDIO->BlockAlign; j++)
-                AUDIO->Data[i][j] *= AUDIO->ARGUMENTS->Volume;
+                AUDIO->Data[i][j] *= AUDIO->ARGUMENTS.Volume;
 
-    if (AUDIO->ARGUMENTS->Wide != 1.0)
+    if (AUDIO->ARGUMENTS.Wide != 1.0)
     {
         signed short diff;
 
@@ -50,8 +50,8 @@ void TreatAudio(audio_t *AUDIO)
         {
             diff = AUDIO->Data[1][k] - AUDIO->Data[0][k];
 
-            AUDIO->Data[1][k] += AUDIO->ARGUMENTS->Wide * diff;
-            AUDIO->Data[0][k] -= AUDIO->ARGUMENTS->Wide * diff;
+            AUDIO->Data[1][k] += AUDIO->ARGUMENTS.Wide * diff;
+            AUDIO->Data[0][k] -= AUDIO->ARGUMENTS.Wide * diff;
         }
     }
 }
