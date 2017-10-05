@@ -9,33 +9,32 @@
 int main(int argc, char *argv[])
 {
     audio_t AUDIO;
-    arguments_t ARGUMENTS;
 
-    PreSet(&ARGUMENTS);
-    SetInputs(&ARGUMENTS);
-    TreatArgs(argc, argv, POSSIBLE_ARGS, &ARGUMENTS, NULL, NULL);
+    PreSet(AUDIO.ARGUMENTS);
+    SetInputs(AUDIO.ARGUMENTS);
+    TreatArgs(argc, argv, POSSIBLE_ARGS, AUDIO.ARGUMENTS, NULL, NULL);
 
-    if (!LoadAudio(&AUDIO, &ARGUMENTS))
+    if (!LoadAudio(&AUDIO))
     {
         fprintf(stderr, "File is unsupported or corrupted\n");
         exit(0);
     }
 
-    fprintf(ARGUMENTS.OUTPUT, "riff tag       : \"%s\"\n", AUDIO.ChunkID);
-    fprintf(ARGUMENTS.OUTPUT, "riff size      : %i\n", AUDIO.ChunkSize);
-    fprintf(ARGUMENTS.OUTPUT, "wave tag       : \"%s\"\n", AUDIO.Format);
-    fprintf(ARGUMENTS.OUTPUT, "form tag       : \"%s\"\n", AUDIO.SubChunk1ID);
-    fprintf(ARGUMENTS.OUTPUT, "fmt_size       : %i\n", AUDIO.SubChunk1Size);
-    fprintf(ARGUMENTS.OUTPUT, "audio_format   : %i\n", AUDIO.AudioFormat);
-    fprintf(ARGUMENTS.OUTPUT, "num_channels   : %i\n", AUDIO.ChannelNr);
-    fprintf(ARGUMENTS.OUTPUT, "sample_rate    : %i\n", AUDIO.SampleRate);
-    fprintf(ARGUMENTS.OUTPUT, "byte_rate      : %i\n", AUDIO.ByteRate);
-    fprintf(ARGUMENTS.OUTPUT, "block_align    : %i\n", AUDIO.BlockAlign);
-    fprintf(ARGUMENTS.OUTPUT, "bits_per_sample: %i\n", AUDIO.BitsPerSample);
-    fprintf(ARGUMENTS.OUTPUT, "data tag       : \"%s\"\n", AUDIO.SubChunk2ID);
-    fprintf(ARGUMENTS.OUTPUT, "data size      : %i\n", AUDIO.SubChunk2Size);
-    fprintf(ARGUMENTS.OUTPUT, "samples/channel: %i\n", AUDIO.SubChunk2Size / AUDIO.BlockAlign);
+    fprintf(AUDIO.ARGUMENTS->OUTPUT, "riff tag       : \"%s\"\n", AUDIO.ChunkID);
+    fprintf(AUDIO.ARGUMENTS->OUTPUT, "riff size      : %i\n", AUDIO.ChunkSize);
+    fprintf(AUDIO.ARGUMENTS->OUTPUT, "wave tag       : \"%s\"\n", AUDIO.Format);
+    fprintf(AUDIO.ARGUMENTS->OUTPUT, "form tag       : \"%s\"\n", AUDIO.SubChunk1ID);
+    fprintf(AUDIO.ARGUMENTS->OUTPUT, "fmt_size       : %i\n", AUDIO.SubChunk1Size);
+    fprintf(AUDIO.ARGUMENTS->OUTPUT, "audio_format   : %i\n", AUDIO.AudioFormat);
+    fprintf(AUDIO.ARGUMENTS->OUTPUT, "num_channels   : %i\n", AUDIO.ChannelNr);
+    fprintf(AUDIO.ARGUMENTS->OUTPUT, "sample_rate    : %i\n", AUDIO.SampleRate);
+    fprintf(AUDIO.ARGUMENTS->OUTPUT, "byte_rate      : %i\n", AUDIO.ByteRate);
+    fprintf(AUDIO.ARGUMENTS->OUTPUT, "block_align    : %i\n", AUDIO.BlockAlign);
+    fprintf(AUDIO.ARGUMENTS->OUTPUT, "bits_per_sample: %i\n", AUDIO.BitsPerSample);
+    fprintf(AUDIO.ARGUMENTS->OUTPUT, "data tag       : \"%s\"\n", AUDIO.SubChunk2ID);
+    fprintf(AUDIO.ARGUMENTS->OUTPUT, "data size      : %i\n", AUDIO.SubChunk2Size);
+    fprintf(AUDIO.ARGUMENTS->OUTPUT, "samples/channel: %i\n", AUDIO.SubChunk2Size / AUDIO.BlockAlign);
 
-    fclose(ARGUMENTS.OUTPUT);
+    fclose(AUDIO.ARGUMENTS->OUTPUT);
     exit(1);
 }

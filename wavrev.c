@@ -10,11 +10,10 @@
 int main(int argc, char *argv[])
 {
     audio_t AUDIO;
-    arguments_t ARGUMENTS;
 
-    PreSet(&ARGUMENTS);
-    SetInputs(&ARGUMENTS);
-    TreatArgs(argc, argv, POSSIBLE_ARGS, &ARGUMENTS, NULL, NULL);
+    PreSet(&AUDIO.ARGUMENTS);
+    SetInputs(&AUDIO.ARGUMENTS);
+    TreatArgs(argc, argv, POSSIBLE_ARGS, &AUDIO.ARGUMENTS, NULL, NULL);
 
     if (!LoadAudio(&AUDIO, &ARGUMENTS))
     {
@@ -22,10 +21,10 @@ int main(int argc, char *argv[])
         exit(0);
     }
 
-    ARGUMENTS.Revert = 1;
-    TreatAudio(&AUDIO, &ARGUMENTS);
+    AUDIO.ARGUMENTS.Revert = 1;
+    TreatAudio(&AUDIO);
 
-    Write(&AUDIO, &ARGUMENTS);
+    Write(&AUDIO);
 
     exit(1);
 }

@@ -10,21 +10,20 @@
 int main(int argc, char *argv[])
 {
     audio_t AUDIO;
-    arguments_t ARGUMENTS;
 
-    PreSet(&ARGUMENTS);
-    SetInputs(&ARGUMENTS);
-    TreatArgs(argc, argv, POSSIBLE_ARGS, &ARGUMENTS, &ARGUMENTS.Volume, NULL);
+    PreSet(&AUDIO.ARGUMENTS);
+    SetInputs(&AUDIO.ARGUMENTS);
+    TreatArgs(argc, argv, POSSIBLE_ARGS, &AUDIO.ARGUMENTS, &AUDIO.ARGUMENTS.Volume, NULL);
 
-    if (!LoadAudio(&AUDIO, &ARGUMENTS))
+    if (!LoadAudio(&AUDIO))
     {
         fprintf(stderr, "File is unsupported or corrupted\n");
         exit(0);
     }
 
-    TreatAudio(&AUDIO, &ARGUMENTS);
+    TreatAudio(&AUDIO);
 
-    Write(&AUDIO, &ARGUMENTS);
+    Write(&AUDIO);
 
     exit(1);
 }
