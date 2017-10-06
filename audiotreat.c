@@ -98,7 +98,7 @@ audio_t *CatAudios(audio_t *AUDIO, char AudNum)
         {
             for (unsigned int i = 0; i < ptr->ChannelNr; i++)
             {
-                ptr->Data[lin][col] = AUDIO[k].Data[i][j];
+                ptr->Data[lin][col] = AUDIO[m].Data[i][j];
                 lin++;
             }
             col++;
