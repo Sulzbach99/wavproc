@@ -60,10 +60,9 @@ void TreatAudio(audio_t *AUDIO)
 audio_t *CatAudios(audio_t *AUDIO, char AudNum)
 {
     audio_t *ptr = malloc(sizeof(audio_t));
-    unsigned int lin = 0, col = 0;
+    unsigned int col = 0;
 
     strcpy(ptr->ChunkID, "RIFF");
-    ptr->ChunkSize = 0;
     strcpy(ptr->Format, "WAVE");
     strcpy(ptr->SubChunk1ID, "fmt ");
     ptr->SubChunk1Size = 16;
@@ -88,19 +87,17 @@ audio_t *CatAudios(audio_t *AUDIO, char AudNum)
             ptr->BitsPerSample = AUDIO[k].BitsPerSample;
         }
     }
+    ptr->ChunkSize = 36 + ptr->SubChunk2Size;
 
     ptr->Data = malloc(ptr->ChannelNr * sizeof(short*));
     for (unsigned int l = 0; l < ptr->ChannelNr; l++)
-        ptr->Data[l] = ptr->SubChunk2Size / ptr->ChannelNr;
+        ptr->Data[l] = malloc(ptr->SubChunk2Size / ptr->ChannelNr);
 
     for (unsigned int m = 0; m < AudNum; m++)
-        for (unsigned int j = 0; j < ptr->SubChunk2Size / ptr->BlockAlign; j++)
+        for (unsigned int j = 0; j < AUDIO[m].SubChunk2Size / AUDIO[m].BlockAlign; j++)
         {
             for (unsigned int i = 0; i < ptr->ChannelNr; i++)
-            {
-                ptr->Data[lin][col] = AUDIO[m].Data[i][j];
-                lin++;
-            }
+                ptr->Data[i][col] = AUDIO[m].Data[i][j];
             col++;
         }
 
