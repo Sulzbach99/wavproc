@@ -15,14 +15,11 @@ void PreSet(arguments_t *ARGUMENTS)
     ARGUMENTS->Wide = 1.0;
 }
 
-void SetInputs(arguments_t *ARGUMENTS)
-{
-}
-
 void TreatArgs(int argc, char *argv[], char *POSSIBLE_ARGS, arguments_t *ARGUMENTS, float *Setting1, float *Setting2)
 {
+    PreSet(ARGUMENTS);
 
-    for (unsigned int i = 1; i <= argc - 1; i += 2)
+    for (unsigned int i = 0; i <= argc - 1; i++)
     {
         if (argv[i][0] == '-')
             switch (argv[i][1])

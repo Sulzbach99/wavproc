@@ -55,3 +55,35 @@ void TreatAudio(audio_t *AUDIO)
         }
     }
 }
+
+audio_t *ConcatAudios(audio_t *AUDIO, char AudNum)
+{
+    audio_t *ptr = malloc(sizeof(audio_t));
+
+    ptr->ChunkID = "RIFF";
+    ptr->ChunkSize = 0;
+    ptr->Format = "WAVE";
+    ptr->SubChunk1ID = "fmt ";
+    ptr->SubChunk1Size = 16;
+    ptr->AudioFormat = 1;
+    ptr->ChannelNr = AUDIO[0]->ChannelNr;
+    ptr->SampleRate = 44100;
+    ptr->ByteRate = AUDIO[0]->ByteRate;
+    ptr->BlockAlign = AUDIO[0]->BlockAlign;
+    ptr->BitsPerSample = AUDIO[0]->BitsPerSample;
+    ptr->SubChunk2ID = "data";
+    ptr->SubChunk2Size = AUDIO[0]->SubChunk2Size;
+
+    for (unsigned int k = 1; k < AudNum; k++)
+    {
+        ptr->SubChunk2Size += AUDIO[k]->SubChunk2Size;
+
+        if (ptr->ChannelNr > AUDIO[k]->ChannelNr)
+        {
+            ptr->ChannelNr = AUDIO[k]->ChannelNr;
+            ptr->ByteRate = AUDIO[k]->ByteRate;
+            ptr->BlockAlign = AUDIO[k]->BlockAlign;
+            ptr->BitsPerSample = AUDIO[k]->BitsPerSample;
+        }
+    }
+}

@@ -10,23 +10,33 @@
 
 int main(int argc, char *argv[])
 {
-    audio_t AUDIO;
+    audio_t *AUDIO = NULL;
+    unsigned int AudNum = 0;
 
-    AllocAudio(&AUDIO, 1);
+    for (unsigned int i = 1; i < argc; i++)
+        if (strstr(".wav", argv[i]))
+            AudNum++;
 
-    PreSet(&AUDIO.ARGUMENTS);
-    SetInputs(&AUDIO.ARGUMENTS);
-    TreatArgs(argc, argv, POSSIBLE_ARGS, &AUDIO.ARGUMENTS, NULL, NULL);
+    AllocAudio(AUDIO, AudNum);
 
-    if (!LoadAudio(&AUDIO))
+    strcpy(argv[0], "-i");
+
+    for (unsigned int j = 1; j <= AudNum; j++)
     {
-        fprintf(stderr, "File is unsupported or corrupted\n");
-        exit(0);
+        strcpy(argv[1], argv[j]);
+        TreatArgs(argc, argv, POSSIBLE_ARGS, &AUDIO->ARGUMENTS, NULL, NULL);
     }
 
-    TreatAudio(&AUDIO);
+    for (unsigned int k = 0; k < AudNum; k++)
+        if (!LoadAudio(&AUDIO[k]))
+        {
+            fprintf(stderr, "File is unsupported or corrupted\n");
+            exit(0);
+        }
 
-    Write(&AUDIO);
+    AUDIO = CatAudios(AUDIO, AudNum);
+
+    Write(AUDIO);
 
     exit(1);
 }
