@@ -2,5 +2,6 @@
 #define __AUDIOTREAT__
 
 void TreatAudio(audio_t *AUDIO);
+audio_t *CatAudios(audio_t *AUDIO, char AudNum);
 
 #endif

@@ -34,14 +34,14 @@ char LoadAudio(audio_t *AUDIO)
     fread(&AUDIO->SubChunk2Size, sizeof(int), 1, AUDIO->ARGUMENTS.INPUT);
 
     // Alocação dinâmica de uma matriz onde cada linha é um canal e cada coluna é uma amostra:
-    AUDIO->Data = malloc(AUDIO->ChannelNr * sizeof(int*));
+    AUDIO->Data = malloc(AUDIO->ChannelNr * sizeof(short*));
     for (unsigned int k = 0; k < AUDIO->ChannelNr; k++)
         AUDIO->Data[k] = malloc(AUDIO->SubChunk2Size / AUDIO->ChannelNr);
 
     // Leitura de cada elemento da matriz:
     for (unsigned int j = 0; j < AUDIO->SubChunk2Size / AUDIO->BlockAlign; j++)
         for (unsigned int i = 0; i < AUDIO->ChannelNr; i++)
-            fread(&AUDIO->Data[i][j], sizeof(short), 1, AUDIO->ARGUMENTS.INPUT);
+            fread(&AUDIO->Data[i][j], AUDIO->BlockAlign / AUDIO->ChannelNr, 1, AUDIO->ARGUMENTS.INPUT);
 
     fclose(AUDIO->ARGUMENTS.INPUT);
     return 1;
