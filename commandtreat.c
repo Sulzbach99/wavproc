@@ -5,7 +5,7 @@
 
 void TreatArgs(int argc, char *argv[], char *POSSIBLE_ARGS, arguments_t *ARGUMENTS, float *Setting1, float *Setting2)
 {
-    ARGUMENTS->INPUT = stdout;
+    ARGUMENTS->INPUT = stdin;
     ARGUMENTS->OUTPUT = stdout;
     ARGUMENTS->Revert = 0;
     ARGUMENTS->AutoVol = 0;

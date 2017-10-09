@@ -31,6 +31,7 @@ typedef struct audio
         unsigned short BitsPerSample;
         char SubChunk2ID[5];
         unsigned int SubChunk2Size;
+        unsigned int SamplesPerChannel;
         signed int **Data;
         arguments_t ARGUMENTS;
 

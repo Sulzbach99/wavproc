@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
     fprintf(AUDIO.ARGUMENTS.OUTPUT, "bits_per_sample: %i\n", AUDIO.BitsPerSample);
     fprintf(AUDIO.ARGUMENTS.OUTPUT, "data tag       : \"%s\"\n", AUDIO.SubChunk2ID);
     fprintf(AUDIO.ARGUMENTS.OUTPUT, "data size      : %i\n", AUDIO.SubChunk2Size);
-    fprintf(AUDIO.ARGUMENTS.OUTPUT, "samples/channel: %i\n", AUDIO.SubChunk2Size / AUDIO.BlockAlign);
+    fprintf(AUDIO.ARGUMENTS.OUTPUT, "samples/channel: %i\n", AUDIO.SamplesPerChannel);
 
     fclose(AUDIO.ARGUMENTS.OUTPUT);
     exit(EXIT_SUCCESS);
