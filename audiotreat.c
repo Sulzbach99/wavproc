@@ -93,7 +93,7 @@ audio_t *CatAudios(audio_t *AUDIO, char AudNum)
     ptr->SampleRate = 44100;
     ptr->ByteRate = AUDIO[0].ByteRate;
     ptr->BlockAlign = AUDIO[0].BlockAlign;
-    ptr->BitsPerSample = AUDIO[0].BitsPerSample;
+    ptr->BitsPerSample = 16;
     strcpy(ptr->SubChunk2ID, "data");
     ptr->SubChunk2Size = AUDIO[0].SubChunk2Size;
 
@@ -106,7 +106,6 @@ audio_t *CatAudios(audio_t *AUDIO, char AudNum)
             ptr->ChannelNr = AUDIO[k].ChannelNr;
             ptr->ByteRate = AUDIO[k].ByteRate;
             ptr->BlockAlign = AUDIO[k].BlockAlign;
-            ptr->BitsPerSample = AUDIO[k].BitsPerSample;
         }
     }
     ptr->ChunkSize = 36 + ptr->SubChunk2Size;
