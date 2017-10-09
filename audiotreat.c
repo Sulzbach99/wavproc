@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "common.h"
+#include "access.h"
 #include "audiotreat.h"
 
 void TreatAudio(audio_t *AUDIO)
@@ -27,22 +28,6 @@ void TreatAudio(audio_t *AUDIO)
         }
     }
 
-    if (AUDIO->ARGUMENTS.AutoVol)
-    {
-        signed short max = AUDIO->Data[0][0];
-
-        for (unsigned int k = 1; k < AUDIO->SubChunk2Size / AUDIO->BlockAlign; k++)
-            if (AUDIO->Data[0][k] > max)
-                max = AUDIO->Data[0][k];
-
-        AUDIO->ARGUMENTS.Volume = 32767.0 / max;
-    }
-
-    if (AUDIO->ARGUMENTS.Volume != 1.0)
-        for (unsigned int i = 0; i < AUDIO->ChannelNr; i++)
-            for (unsigned int j = 0; j < AUDIO->SubChunk2Size / AUDIO->BlockAlign; j++)
-                AUDIO->Data[i][j] *= AUDIO->ARGUMENTS.Volume;
-
     if (AUDIO->ARGUMENTS.Wide != 1.0)
     {
         signed short diff;
@@ -54,13 +39,50 @@ void TreatAudio(audio_t *AUDIO)
             AUDIO->Data[1][k] += AUDIO->ARGUMENTS.Wide * diff;
             AUDIO->Data[0][k] -= AUDIO->ARGUMENTS.Wide * diff;
         }
+
+        AUDIO->ARGUMENTS.AutoVol = 1;
     }
+
+    if (AUDIO->ARGUMENTS.Delay)
+    {
+        unsigned int Aux = (AUDIO->SampleRate * AUDIO->ARGUMENTS.Delay) / 1000;
+
+        for (unsigned int i = 0; i < AUDIO->ChannelNr; i++)
+            for (unsigned int j = 0; j + Aux < AUDIO->SubChunk2Size / AUDIO->BlockAlign; j++)
+                AUDIO->Data[i][j+Aux] += AUDIO->Data[i][j] * AUDIO->ARGUMENTS.Aten;
+
+        AUDIO->ARGUMENTS.AutoVol = 1;
+    }
+
+    if (AUDIO->ARGUMENTS.AutoVol)
+    {
+        signed short max, min;
+
+        max = min = AUDIO->Data[0][0];
+
+        for (unsigned int i = 0; i < AUDIO->ChannelNr; i++)
+            for (unsigned int j = 0; j < AUDIO->SubChunk2Size / AUDIO->BlockAlign; j++)
+                if (AUDIO->Data[i][j] > max)
+                    max = AUDIO->Data[i][j];
+                else if (AUDIO->Data[i][j] < min)
+                    min = AUDIO->Data[i][j];
+
+        if (max > -min)
+            AUDIO->ARGUMENTS.Volume = 32767.0 / max;
+        else
+            AUDIO->ARGUMENTS.Volume = 32768.0 / -min;
+    }
+
+    if (AUDIO->ARGUMENTS.Volume != 1.0)
+        for (unsigned int i = 0; i < AUDIO->ChannelNr; i++)
+            for (unsigned int j = 0; j < AUDIO->SubChunk2Size / AUDIO->BlockAlign; j++)
+                AUDIO->Data[i][j] *= AUDIO->ARGUMENTS.Volume;
 }
 
 audio_t *CatAudios(audio_t *AUDIO, char AudNum)
 {
-    audio_t *ptr = malloc(sizeof(audio_t));
-    unsigned int col = 0;
+    audio_t *ptr = Malloc(sizeof(audio_t));
+    unsigned long col = 0;
 
     strcpy(ptr->ChunkID, "RIFF");
     strcpy(ptr->Format, "WAVE");
@@ -89,9 +111,9 @@ audio_t *CatAudios(audio_t *AUDIO, char AudNum)
     }
     ptr->ChunkSize = 36 + ptr->SubChunk2Size;
 
-    ptr->Data = malloc(ptr->ChannelNr * sizeof(short*));
+    ptr->Data = Malloc(ptr->ChannelNr * sizeof(short*));
     for (unsigned int l = 0; l < ptr->ChannelNr; l++)
-        ptr->Data[l] = malloc(ptr->SubChunk2Size / ptr->ChannelNr);
+        ptr->Data[l] = Malloc(ptr->SubChunk2Size / ptr->ChannelNr);
 
     for (unsigned int m = 0; m < AudNum; m++)
         for (unsigned int j = 0; j < AUDIO[m].SubChunk2Size / AUDIO[m].BlockAlign; j++)

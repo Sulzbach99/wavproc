@@ -10,15 +10,9 @@ int main(int argc, char *argv[])
 {
     audio_t AUDIO;
 
-    AllocAudio(&AUDIO, 1);
-
     TreatArgs(argc, argv, POSSIBLE_ARGS, &AUDIO.ARGUMENTS, NULL, NULL);
 
-    if (!LoadAudio(&AUDIO))
-    {
-        fprintf(stderr, "File is unsupported or corrupted\n");
-        exit(0);
-    }
+    LoadAudio(&AUDIO);
 
     fprintf(AUDIO.ARGUMENTS.OUTPUT, "riff tag       : \"%s\"\n", AUDIO.ChunkID);
     fprintf(AUDIO.ARGUMENTS.OUTPUT, "riff size      : %i\n", AUDIO.ChunkSize);
@@ -36,5 +30,5 @@ int main(int argc, char *argv[])
     fprintf(AUDIO.ARGUMENTS.OUTPUT, "samples/channel: %i\n", AUDIO.SubChunk2Size / AUDIO.BlockAlign);
 
     fclose(AUDIO.ARGUMENTS.OUTPUT);
-    exit(1);
+    exit(EXIT_SUCCESS);
 }

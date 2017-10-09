@@ -10,20 +10,16 @@
 int main(int argc, char *argv[])
 {
     audio_t AUDIO;
-    arguments_t ARGUMENTS;
 
-    PreSet(&ARGUMENTS);
-    TreatArgs(argc, argv, POSSIBLE_ARGS, &ARGUMENTS, &ARGUMENTS.Aten, &ARGUMENTS.Delay);
+    TreatArgs(argc, argv, POSSIBLE_ARGS, &AUDIO.ARGUMENTS, &AUDIO.ARGUMENTS.Aten, &AUDIO.ARGUMENTS.Delay);
+    if (!AUDIO.ARGUMENTS.Delay)
+        AUDIO.ARGUMENTS.Delay = 1000;
 
-    if (!LoadAudio(&AUDIO, &ARGUMENTS))
-    {
-        fprintf(stderr, "File is unsupported or corrupted\n");
-        exit(0);
-    }
+    LoadAudio(&AUDIO);
 
-    TreatAudio(&AUDIO, &ARGUMENTS);
+    TreatAudio(&AUDIO);
 
-    Write(&AUDIO, &ARGUMENTS);
+    Write(&AUDIO);
 
-    exit(1);
+    exit(EXIT_SUCCESS);
 }

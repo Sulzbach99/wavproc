@@ -4,24 +4,27 @@
 #include "common.h"
 #include "access.h"
 
-char AllocAudio(audio_t *AUDIO, char AudNum)
+void *Malloc(unsigned int size)
 {
-    AUDIO = malloc(AudNum * sizeof(audio_t));
-    return 1;
+    void *ptr = malloc(size);
+    if (!ptr)
+    {
+        fprintf(stderr, "malloc error\n");
+        exit(EXIT_FAILURE);
+    }
+    return ptr;
 }
 
-char LoadAudio(audio_t *AUDIO)
+void LoadAudio(audio_t *AUDIO)
 {
+    signed short Aux;
+
     AUDIO->ChunkID[4] = AUDIO->Format[4] = AUDIO->SubChunk1ID[4] = AUDIO->SubChunk2ID[4] = 0;
 
     // Leitura do cabeçalho do arquivo de áudio:
     fread(AUDIO->ChunkID, sizeof(char), 4, AUDIO->ARGUMENTS.INPUT);
-    if (strcmp(AUDIO->ChunkID, "RIFF"))
-        return 0;
     fread(&AUDIO->ChunkSize, sizeof(int), 1, AUDIO->ARGUMENTS.INPUT);
     fread(AUDIO->Format, sizeof(char), 4, AUDIO->ARGUMENTS.INPUT);
-    if (strcmp(AUDIO->Format, "WAVE"))
-        return 0;
     fread(AUDIO->SubChunk1ID, sizeof(char), 4, AUDIO->ARGUMENTS.INPUT);
     fread(&AUDIO->SubChunk1Size, sizeof(int), 1, AUDIO->ARGUMENTS.INPUT);
     fread(&AUDIO->AudioFormat, sizeof(short), 1, AUDIO->ARGUMENTS.INPUT);
@@ -34,17 +37,19 @@ char LoadAudio(audio_t *AUDIO)
     fread(&AUDIO->SubChunk2Size, sizeof(int), 1, AUDIO->ARGUMENTS.INPUT);
 
     // Alocação dinâmica de uma matriz onde cada linha é um canal e cada coluna é uma amostra:
-    AUDIO->Data = malloc(AUDIO->ChannelNr * sizeof(short*));
+    AUDIO->Data = Malloc(AUDIO->ChannelNr * sizeof(int*));
     for (unsigned int k = 0; k < AUDIO->ChannelNr; k++)
-        AUDIO->Data[k] = malloc(AUDIO->SubChunk2Size / AUDIO->ChannelNr);
+        AUDIO->Data[k] = Malloc(AUDIO->SubChunk2Size / AUDIO->ChannelNr * 2);
 
     // Leitura de cada elemento da matriz:
     for (unsigned int j = 0; j < AUDIO->SubChunk2Size / AUDIO->BlockAlign; j++)
         for (unsigned int i = 0; i < AUDIO->ChannelNr; i++)
-            fread(&AUDIO->Data[i][j], AUDIO->BlockAlign / AUDIO->ChannelNr, 1, AUDIO->ARGUMENTS.INPUT);
+        {
+            fread(&Aux, AUDIO->BlockAlign / AUDIO->ChannelNr, 1, AUDIO->ARGUMENTS.INPUT);
+            AUDIO->Data[i][j] = (signed int)Aux;
+        }
 
     fclose(AUDIO->ARGUMENTS.INPUT);
-    return 1;
 }
 
 void Write(audio_t *AUDIO)
@@ -65,7 +70,7 @@ void Write(audio_t *AUDIO)
 
     for (unsigned int j = 0; j < AUDIO->SubChunk2Size / AUDIO->BlockAlign; j++)
         for (unsigned int i = 0; i < AUDIO->ChannelNr; i++)
-            fwrite(&AUDIO->Data[i][j], sizeof(short), 1, AUDIO->ARGUMENTS.OUTPUT);
+            fwrite(&AUDIO->Data[i][j], AUDIO->BlockAlign / AUDIO->ChannelNr, 1, AUDIO->ARGUMENTS.OUTPUT);
     
     fclose(AUDIO->ARGUMENTS.OUTPUT);
 }

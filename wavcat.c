@@ -11,13 +11,13 @@
 int main(int argc, char *argv[])
 {
     audio_t *AUDIO;
-    unsigned int AudNum = 0;
+    unsigned short AudNum = 0;
 
     for (unsigned int i = 1; i < argc - 1; i++)
         if (strstr(argv[i], ".wav"))
             AudNum++;
 
-    AUDIO = malloc(AudNum * sizeof(audio_t));
+    AUDIO = Malloc(AudNum * sizeof(audio_t));
 
     strcpy(argv[0], "-i");
 
@@ -28,16 +28,12 @@ int main(int argc, char *argv[])
     }
 
     for (unsigned int k = 0; k < AudNum; k++)
-        if (!LoadAudio(&AUDIO[k]))
-        {
-            fprintf(stderr, "File is unsupported or corrupted\n");
-            exit(0);
-        }
+        LoadAudio(&AUDIO[k]);
 
     AUDIO = CatAudios(AUDIO, AudNum);
     TreatArgs(argc, argv, POSSIBLE_ARGS, &AUDIO->ARGUMENTS, NULL, NULL);
 
     Write(AUDIO);
 
-    exit(1);
+    exit(EXIT_SUCCESS);
 }
