@@ -1,25 +1,29 @@
-all: wavinfo wavrev wavvol wavautovol wavwide wavcat wavecho wavmix
+CFLAGS = -Wall -g
+OBJS = access.o audiotreat.o commandtreat.o wavinfo.o wavrev.o wavvol.o wavautovol.o wavecho.o wavwide.o wavcat.o wavmix.o
 
-wavinfo: wavinfo.c common.h access.c access.h commandtreat.c commandtreat.h
-	gcc -Wall wavinfo.c access.c commandtreat.c -o wavinfo -g
+all:	wavinfo wavrev wavvol wavautovol wavecho wavwide wavcat wavmix
 
-wavrev: wavrev.c common.h access.c access.h commandtreat.c commandtreat.h audiotreat.c audiotreat.h
-	gcc -Wall wavrev.c access.c commandtreat.c audiotreat.c -o wavrev -g
+wavinfo:	wavinfo.o access.o audiotreat.o commandtreat.o
+wavrev:		wavrev.o access.o audiotreat.o commandtreat.o
+wavvol:		wavvol.o access.o audiotreat.o commandtreat.o
+wavautovol:	wavautovol.o access.o audiotreat.o commandtreat.o
+wavecho:	wavecho.o access.o audiotreat.o commandtreat.o
+wavwide:	wavwide.o access.o audiotreat.o commandtreat.o
+wavcat:		wavcat.o access.o audiotreat.o commandtreat.o
+wavmix:		wavmix.o access.o audiotreat.o commandtreat.o
 
-wavvol: wavvol.c common.h access.c access.h commandtreat.c commandtreat.h audiotreat.c audiotreat.h
-	gcc -Wall wavvol.c access.c commandtreat.c audiotreat.c -o wavvol -g
+access.o:		access.c access.h common.h
+audiotreat.o:	audiotreat.c audiotreat.h common.h access.h
+commandtreat.o:	commandtreat.c commandtreat.h common.h
 
-wavautovol: wavautovol.c common.h access.c access.h commandtreat.c commandtreat.h audiotreat.c audiotreat.h
-	gcc -Wall wavautovol.c access.c commandtreat.c audiotreat.c -o wavautovol -g
+wavinfo.o:		wavinfo.c access.h audiotreat.h commandtreat.h common.h
+wavrev.o:		wavrev.c access.h audiotreat.h commandtreat.h common.h
+wavvol.o:		wavvol.c access.h audiotreat.h commandtreat.h common.h
+wavautovol.o:	wavautovol.c access.h audiotreat.h commandtreat.h common.h
+wavecho.o:		wavecho.c access.h audiotreat.h commandtreat.h common.h
+wavwide.o:		wavwide.c access.h audiotreat.h commandtreat.h common.h
+wavcat.o:		wavcat.c access.h audiotreat.h commandtreat.h common.h
+wavmix.o:		wavmix.c access.h audiotreat.h commandtreat.h common.h
 
-wavwide: wavwide.c common.h access.c access.h commandtreat.c commandtreat.h audiotreat.c audiotreat.h
-	gcc -Wall wavwide.c access.c commandtreat.c audiotreat.c -o wavwide -g
-
-wavecho: wavecho.c common.h access.c access.h commandtreat.c commandtreat.h audiotreat.c audiotreat.h
-	gcc -Wall wavecho.c access.c commandtreat.c audiotreat.c -o wavecho -g
-
-wavcat: wavcat.c common.h access.c access.h commandtreat.c commandtreat.h audiotreat.c audiotreat.h
-	gcc -Wall wavcat.c access.c commandtreat.c audiotreat.c -o wavcat -g
-
-wavmix: wavmix.c common.h access.c access.h commandtreat.c commandtreat.h audiotreat.c audiotreat.h
-	gcc -Wall wavmix.c access.c commandtreat.c audiotreat.c -o wavmix -g
+clean:
+	-rm $(OBJS)
