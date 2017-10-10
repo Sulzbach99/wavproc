@@ -56,24 +56,14 @@ void TreatAudio(audio_t *AUDIO)
 
     if (AUDIO->ARGUMENTS.AutoVol)
     {
-        signed short max, min;
-
-        max = min = AUDIO->Data[0][0];
+        signed int max = AUDIO->Data[0][0];
 
         for (unsigned int i = 0; i < AUDIO->ChannelNr; i++)
             for (unsigned int j = 0; j < AUDIO->SamplesPerChannel; j++)
-            {
                 if (AUDIO->Data[i][j] > max)
-                    max = AUDIO->Data[i][j];
+                    max = abs(AUDIO->Data[i][j]);
 
-                if (AUDIO->Data[i][j] < min)
-                    min = AUDIO->Data[i][j];
-            }
-
-        if (max > -min)
-            AUDIO->ARGUMENTS.Volume = 32767.0 / max;
-        else
-            AUDIO->ARGUMENTS.Volume = 32768.0 / -min;
+        AUDIO->ARGUMENTS.Volume = 32767.0 / max;
     }
 
     if (AUDIO->ARGUMENTS.Volume != 1.0)
