@@ -62,10 +62,13 @@ void TreatAudio(audio_t *AUDIO)
 
         for (unsigned int i = 0; i < AUDIO->ChannelNr; i++)
             for (unsigned int j = 0; j < AUDIO->SamplesPerChannel; j++)
+            {
                 if (AUDIO->Data[i][j] > max)
                     max = AUDIO->Data[i][j];
-                else if (AUDIO->Data[i][j] < min)
+
+                if (AUDIO->Data[i][j] < min)
                     min = AUDIO->Data[i][j];
+            }
 
         if (max > -min)
             AUDIO->ARGUMENTS.Volume = 32767.0 / max;

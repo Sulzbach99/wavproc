@@ -4,7 +4,7 @@
 #include "commandtreat.h"
 #include "access.h"
 
-#define POSSIBLE_ARGS "ioxx"
+#define POSSIBLE_ARGS "io~~"
 
 int main(int argc, char *argv[])
 {

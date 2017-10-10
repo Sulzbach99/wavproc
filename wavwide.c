@@ -5,7 +5,7 @@
 #include "access.h"
 #include "audiotreat.h"
 
-#define POSSIBLE_ARGS "ilox"
+#define POSSIBLE_ARGS "ilo~"
 
 int main(int argc, char *argv[])
 {

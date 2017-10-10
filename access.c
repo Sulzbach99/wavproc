@@ -37,6 +37,16 @@ void LoadAudio(audio_t *AUDIO)
     fread(&AUDIO->SubChunk2Size, sizeof(int), 1, AUDIO->ARGUMENTS.INPUT);
     AUDIO->SamplesPerChannel = AUDIO->SubChunk2Size / AUDIO->BlockAlign;
 
+    if (strcmp(AUDIO->ChunkID, "RIFF")     ||
+        strcmp(AUDIO->Format, "WAVE")      ||
+        strcmp(AUDIO->SubChunk1ID, "fmt ") ||
+        AUDIO->SubChunk1Size != 16         ||
+        AUDIO->AudioFormat != 1             )
+    {
+        fprintf(stderr, "audio error\n");
+        exit(EXIT_FAILURE);
+    }
+
     // Alocação dinâmica de uma matriz onde cada linha é um canal e cada coluna é uma amostra:
     AUDIO->Data = Malloc(AUDIO->ChannelNr * sizeof(int*));
     for (unsigned int k = 0; k < AUDIO->ChannelNr; k++)

@@ -3,6 +3,20 @@
 #include "common.h"
 #include "commandtreat.h"
 
+static int Comp(const void *a, const void *b)
+{
+    char *a2 = (char *)a;
+    char *b2 = (char *)b;
+
+    if (*a2 > *b2)
+        return 1;
+
+    if (*a2 < *b2)
+        return -1;
+
+    return 0;
+}
+
 void TreatArgs(int argc, char *argv[], char *POSSIBLE_ARGS, arguments_t *ARGUMENTS, float *Setting1, float *Setting2)
 {
     ARGUMENTS->INPUT = stdin;
@@ -17,6 +31,13 @@ void TreatArgs(int argc, char *argv[], char *POSSIBLE_ARGS, arguments_t *ARGUMEN
     for (unsigned int i = 0; i <= argc - 1; i++)
     {
         if (argv[i][0] == '-')
+        {
+            if (!bsearch(&argv[i][1], POSSIBLE_ARGS, 4, 1, Comp))
+            {
+                fprintf(stderr, "argument error\n");
+                exit(EXIT_FAILURE);
+            }
+
             switch (argv[i][1])
             {
                 case 'i':
@@ -40,5 +61,6 @@ void TreatArgs(int argc, char *argv[], char *POSSIBLE_ARGS, arguments_t *ARGUMEN
                     break;
                 }
             }
+        }
     }
 }
