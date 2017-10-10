@@ -4,6 +4,7 @@
 #include "common.h"
 #include "access.h"
 
+// Função que chama um 'malloc' simples, mas verifica se a operação foi bem sucedida antes de prosseguir:
 void *Malloc(unsigned int size)
 {
     void *ptr = malloc(size);
@@ -15,6 +16,7 @@ void *Malloc(unsigned int size)
     return ptr;
 }
 
+// Função que lê o arquivo de áudio, armazenando os dados em seus respectivos campos:
 void LoadAudio(audio_t *AUDIO)
 {
     signed short Aux;
@@ -37,6 +39,7 @@ void LoadAudio(audio_t *AUDIO)
     fread(&AUDIO->SubChunk2Size, sizeof(int), 1, AUDIO->ARGUMENTS.INPUT);
     AUDIO->SamplesPerChannel = AUDIO->SubChunk2Size / AUDIO->BlockAlign;
 
+    // Verificação:
     if (strcmp(AUDIO->ChunkID, "RIFF")     ||
         strcmp(AUDIO->Format, "WAVE")      ||
         strcmp(AUDIO->SubChunk1ID, "fmt ") ||
@@ -63,6 +66,7 @@ void LoadAudio(audio_t *AUDIO)
     fclose(AUDIO->ARGUMENTS.INPUT);
 }
 
+// Função que escreve o áudio na saída desejada:
 void Write(audio_t *AUDIO)
 {
     fwrite(AUDIO->ChunkID, sizeof(char), 4, AUDIO->ARGUMENTS.OUTPUT);

@@ -1,6 +1,7 @@
 #ifndef __COMMON__
 #define __COMMON__
 
+// Struct que armazena os argumentos de processamento de um áudio:
 typedef struct arguments
     {
         FILE *INPUT;
@@ -16,6 +17,7 @@ typedef struct arguments
 
     } arguments_t;
 
+// Struct que armazena e organiza todos os dados de um áudio:
 typedef struct audio
     {
         char ChunkID[5];
