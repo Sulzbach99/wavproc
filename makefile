@@ -35,3 +35,7 @@ wavmix.o:		wavmix.c $(HEADS)
 # Remove todos os objetos:
 clean:
 				-rm $(OBJS)
+
+# Remove todos os binários:
+purge: clean
+				-rm wavinfo wavrev wavvol wavautovol wavecho wavwide wavcat wavmix
