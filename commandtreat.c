@@ -17,7 +17,7 @@ static int Comp(const void *a, const void *b)
     return 0;
 }
 
-void TreatArgs(int argc, char *argv[], char *POSSIBLE_ARGS, arguments_t *ARGUMENTS, float *Setting1, float *Setting2)
+void TreatArgs(int argc, char *argv[], char *OPTS, arguments_t *ARGUMENTS, float *Setting1, float *Setting2)
 {
     ARGUMENTS->INPUT = stdin;
     ARGUMENTS->OUTPUT = stdout;
@@ -32,7 +32,7 @@ void TreatArgs(int argc, char *argv[], char *POSSIBLE_ARGS, arguments_t *ARGUMEN
     {
         if (argv[i][0] == '-')
         {
-            if (!bsearch(&argv[i][1], POSSIBLE_ARGS, 4, 1, Comp))
+            if (!bsearch(&argv[i][1], OPTS, 4, 1, Comp))
             {
                 fprintf(stderr, "argument error\n");
                 exit(EXIT_FAILURE);

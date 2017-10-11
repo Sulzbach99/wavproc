@@ -6,7 +6,7 @@
 #include "access.h"
 #include "audiotreat.h"
 
-#define POSSIBLE_ARGS "io~~"
+#define OPTS "io~~"
 
 int main(int argc, char *argv[])
 {
@@ -24,14 +24,14 @@ int main(int argc, char *argv[])
     for (unsigned int j = 1; j <= AudNum; j++)
     {
         strcpy(argv[1], argv[j]);
-        TreatArgs(argc, argv, POSSIBLE_ARGS, &AUDIO[j-1].ARGUMENTS, NULL, NULL);
+        TreatArgs(argc, argv, OPTS, &AUDIO[j-1].ARGUMENTS, NULL, NULL);
     }
 
     for (unsigned int k = 0; k < AudNum; k++)
         LoadAudio(&AUDIO[k]);
 
     AUDIO = CatAudios(AUDIO, AudNum);
-    TreatArgs(argc, argv, POSSIBLE_ARGS, &AUDIO->ARGUMENTS, NULL, NULL);
+    TreatArgs(argc, argv, OPTS, &AUDIO->ARGUMENTS, NULL, NULL);
 
     Write(AUDIO);
 

@@ -5,13 +5,13 @@
 #include "access.h"
 #include "audiotreat.h"
 
-#define POSSIBLE_ARGS "ilo~"
+#define OPTS "ilo~"
 
 int main(int argc, char *argv[])
 {
     audio_t AUDIO;
 
-    TreatArgs(argc, argv, POSSIBLE_ARGS, &AUDIO.ARGUMENTS, &AUDIO.ARGUMENTS.Volume, NULL);
+    TreatArgs(argc, argv, OPTS, &AUDIO.ARGUMENTS, &AUDIO.ARGUMENTS.Volume, NULL);
 
     LoadAudio(&AUDIO);
 
