@@ -15,8 +15,7 @@ int main(int argc, char *argv[])
 
     LoadAudio(&AUDIO);
 
-    AUDIO.ARGUMENTS.Revert = 1;
-    TreatAudio(&AUDIO);
+    Rev(&AUDIO);
 
     Write(&AUDIO);
 

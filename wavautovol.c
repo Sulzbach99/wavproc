@@ -15,8 +15,7 @@ int main(int argc, char *argv[])
 
     LoadAudio(&AUDIO);
 
-    AUDIO.ARGUMENTS.AutoVol = 1;
-    TreatAudio(&AUDIO);
+    AutoVol(&AUDIO);
 
     Write(&AUDIO);
 

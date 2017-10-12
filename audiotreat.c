@@ -25,71 +25,70 @@ void GetInfo(audio_t AUDIO)
     fclose(AUDIO.ARGUMENTS.OUTPUT);
 }
 
-void TreatAudio(audio_t *AUDIO)
+void Rev(audio_t *AUDIO)
 {
-    if (AUDIO->ARGUMENTS.Revert)
+    signed short aux;
+    unsigned int a, b;
+
+    for (unsigned int k = 0; k < AUDIO->ChannelNr; k++)
     {
-        signed short aux;
-        unsigned int a, b;
-
-        for (unsigned int k = 0; k < AUDIO->ChannelNr; k++)
+        a = 0;
+        b = AUDIO->SamplesPerChannel - 1;
+        while (a < b)
         {
-            a = 0;
-            b = AUDIO->SamplesPerChannel - 1;
-            while (a < b)
-            {
-                aux = AUDIO->Data[k][a];
-                AUDIO->Data[k][a] = AUDIO->Data[k][b];
-                AUDIO->Data[k][b] = aux;
+            aux = AUDIO->Data[k][a];
+            AUDIO->Data[k][a] = AUDIO->Data[k][b];
+            AUDIO->Data[k][b] = aux;
 
-                a++;
-                b--;
-            }
+            a++;
+            b--;
         }
     }
+}
 
-    if (AUDIO->ARGUMENTS.Wide != 1.0)
+void Vol(audio_t *AUDIO, float Volume)
+{
+    for (unsigned int i = 0; i < AUDIO->ChannelNr; i++)
+        for (unsigned int j = 0; j < AUDIO->SamplesPerChannel; j++)
+            AUDIO->Data[i][j] *= Volume;
+}
+
+void AutoVol(audio_t *AUDIO)
+{
+    signed int max = AUDIO->Data[0][0];
+
+    for (unsigned int i = 0; i < AUDIO->ChannelNr; i++)
+        for (unsigned int j = 0; j < AUDIO->SamplesPerChannel; j++)
+            if (AUDIO->Data[i][j] > max)
+                max = abs(AUDIO->Data[i][j]);
+
+    Vol(AUDIO, 32767.0 / max);
+}
+
+void Echo(audio_t *AUDIO, float Aten, float Delay)
+{
+    unsigned int Aux = (AUDIO->SampleRate * Delay) / 1000;
+
+    for (unsigned int i = 0; i < AUDIO->ChannelNr; i++)
+        for (unsigned int j = 0; j + Aux < AUDIO->SamplesPerChannel; j++)
+            AUDIO->Data[i][j+Aux] += AUDIO->Data[i][j] * Aten;
+
+    AutoVol(AUDIO);
+}
+
+void Wide(audio_t *AUDIO, float k)
+{
+    signed int diff;
+
+    for (unsigned int i = 0; i < AUDIO->SamplesPerChannel; i++)
     {
-        signed short diff;
+        diff = AUDIO->Data[1][i] - AUDIO->Data[0][i];
 
-        for (unsigned int k = 0; k < AUDIO->SamplesPerChannel; k++)
-        {
-            diff = AUDIO->Data[1][k] - AUDIO->Data[0][k];
-
-            AUDIO->Data[1][k] += AUDIO->ARGUMENTS.Wide * diff;
-            AUDIO->Data[0][k] -= AUDIO->ARGUMENTS.Wide * diff;
-        }
-
-        AUDIO->ARGUMENTS.AutoVol = 1;
+        AUDIO->Data[1][i] += k * diff;
+        AUDIO->Data[0][i] -= k * diff;
     }
 
-    if (AUDIO->ARGUMENTS.Delay)
-    {
-        unsigned int Aux = (AUDIO->SampleRate * AUDIO->ARGUMENTS.Delay) / 1000;
-
-        for (unsigned int i = 0; i < AUDIO->ChannelNr; i++)
-            for (unsigned int j = 0; j + Aux < AUDIO->SamplesPerChannel; j++)
-                AUDIO->Data[i][j+Aux] += AUDIO->Data[i][j] * AUDIO->ARGUMENTS.Aten;
-
-        AUDIO->ARGUMENTS.AutoVol = 1;
-    }
-
-    if (AUDIO->ARGUMENTS.AutoVol)
-    {
-        signed int max = AUDIO->Data[0][0];
-
-        for (unsigned int i = 0; i < AUDIO->ChannelNr; i++)
-            for (unsigned int j = 0; j < AUDIO->SamplesPerChannel; j++)
-                if (AUDIO->Data[i][j] > max)
-                    max = abs(AUDIO->Data[i][j]);
-
-        AUDIO->ARGUMENTS.Volume = 32767.0 / max;
-    }
-
-    if (AUDIO->ARGUMENTS.Volume != 1.0)
-        for (unsigned int i = 0; i < AUDIO->ChannelNr; i++)
-            for (unsigned int j = 0; j < AUDIO->SamplesPerChannel; j++)
-                AUDIO->Data[i][j] *= AUDIO->ARGUMENTS.Volume;
+    AutoVol(AUDIO);
 }
 
 audio_t *CatAudios(audio_t *AUDIO, char AudNum)

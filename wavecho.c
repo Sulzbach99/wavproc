@@ -10,14 +10,13 @@
 int main(int argc, char *argv[])
 {
     audio_t AUDIO;
+    float Aten, Delay;
 
-    TreatArgs(argc, argv, OPTS, &AUDIO.ARGUMENTS, &AUDIO.ARGUMENTS.Aten, &AUDIO.ARGUMENTS.Delay);
-    if (!AUDIO.ARGUMENTS.Delay)
-        AUDIO.ARGUMENTS.Delay = 1000;
+    TreatArgs(argc, argv, OPTS, &AUDIO.ARGUMENTS, &Aten, &Delay);
 
     LoadAudio(&AUDIO);
 
-    TreatAudio(&AUDIO);
+    Echo(&AUDIO, Aten, Delay);
 
     Write(&AUDIO);
 

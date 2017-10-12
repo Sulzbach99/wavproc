@@ -10,12 +10,13 @@
 int main(int argc, char *argv[])
 {
     audio_t AUDIO;
+    float Volume;
 
-    TreatArgs(argc, argv, OPTS, &AUDIO.ARGUMENTS, &AUDIO.ARGUMENTS.Volume, NULL);
+    TreatArgs(argc, argv, OPTS, &AUDIO.ARGUMENTS, &Volume, NULL);
 
     LoadAudio(&AUDIO);
 
-    TreatAudio(&AUDIO);
+    Vol(&AUDIO, Volume);
 
     Write(&AUDIO);
 
