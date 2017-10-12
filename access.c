@@ -24,19 +24,19 @@ void LoadAudio(audio_t *AUDIO)
     AUDIO->ChunkID[4] = AUDIO->Format[4] = AUDIO->SubChunk1ID[4] = AUDIO->SubChunk2ID[4] = 0;
 
     // Leitura do cabeçalho do arquivo de áudio:
-    fread(AUDIO->ChunkID, sizeof(char), 4, AUDIO->ARGUMENTS.INPUT);
-    fread(&AUDIO->ChunkSize, sizeof(int), 1, AUDIO->ARGUMENTS.INPUT);
-    fread(AUDIO->Format, sizeof(char), 4, AUDIO->ARGUMENTS.INPUT);
-    fread(AUDIO->SubChunk1ID, sizeof(char), 4, AUDIO->ARGUMENTS.INPUT);
-    fread(&AUDIO->SubChunk1Size, sizeof(int), 1, AUDIO->ARGUMENTS.INPUT);
-    fread(&AUDIO->AudioFormat, sizeof(short), 1, AUDIO->ARGUMENTS.INPUT);
-    fread(&AUDIO->ChannelNr, sizeof(short), 1, AUDIO->ARGUMENTS.INPUT);
-    fread(&AUDIO->SampleRate, sizeof(int), 1, AUDIO->ARGUMENTS.INPUT);
-    fread(&AUDIO->ByteRate, sizeof(int), 1, AUDIO->ARGUMENTS.INPUT);
-    fread(&AUDIO->BlockAlign, sizeof(short), 1, AUDIO->ARGUMENTS.INPUT);
-    fread(&AUDIO->BitsPerSample, sizeof(short), 1, AUDIO->ARGUMENTS.INPUT);
-    fread(AUDIO->SubChunk2ID, sizeof(char), 4, AUDIO->ARGUMENTS.INPUT);
-    fread(&AUDIO->SubChunk2Size, sizeof(int), 1, AUDIO->ARGUMENTS.INPUT);
+    fread(AUDIO->ChunkID, sizeof(char), 4, AUDIO->INPUT);
+    fread(&AUDIO->ChunkSize, sizeof(int), 1, AUDIO->INPUT);
+    fread(AUDIO->Format, sizeof(char), 4, AUDIO->INPUT);
+    fread(AUDIO->SubChunk1ID, sizeof(char), 4, AUDIO->INPUT);
+    fread(&AUDIO->SubChunk1Size, sizeof(int), 1, AUDIO->INPUT);
+    fread(&AUDIO->AudioFormat, sizeof(short), 1, AUDIO->INPUT);
+    fread(&AUDIO->ChannelNr, sizeof(short), 1, AUDIO->INPUT);
+    fread(&AUDIO->SampleRate, sizeof(int), 1, AUDIO->INPUT);
+    fread(&AUDIO->ByteRate, sizeof(int), 1, AUDIO->INPUT);
+    fread(&AUDIO->BlockAlign, sizeof(short), 1, AUDIO->INPUT);
+    fread(&AUDIO->BitsPerSample, sizeof(short), 1, AUDIO->INPUT);
+    fread(AUDIO->SubChunk2ID, sizeof(char), 4, AUDIO->INPUT);
+    fread(&AUDIO->SubChunk2Size, sizeof(int), 1, AUDIO->INPUT);
     AUDIO->SamplesPerChannel = AUDIO->SubChunk2Size / AUDIO->BlockAlign;
 
     // Verificação:
@@ -59,33 +59,33 @@ void LoadAudio(audio_t *AUDIO)
     for (unsigned int j = 0; j < AUDIO->SamplesPerChannel; j++)
         for (unsigned int i = 0; i < AUDIO->ChannelNr; i++)
         {
-            fread(&Aux, AUDIO->BitsPerSample / 8, 1, AUDIO->ARGUMENTS.INPUT);
+            fread(&Aux, AUDIO->BitsPerSample / 8, 1, AUDIO->INPUT);
             AUDIO->Data[i][j] = (signed int)Aux;
         }
 
-    fclose(AUDIO->ARGUMENTS.INPUT);
+    fclose(AUDIO->INPUT);
 }
 
 // Função que escreve o áudio na saída desejada:
 void Write(audio_t *AUDIO)
 {
-    fwrite(AUDIO->ChunkID, sizeof(char), 4, AUDIO->ARGUMENTS.OUTPUT);
-    fwrite(&AUDIO->ChunkSize, sizeof(int), 1, AUDIO->ARGUMENTS.OUTPUT);
-    fwrite(AUDIO->Format, sizeof(char), 4, AUDIO->ARGUMENTS.OUTPUT);
-    fwrite(AUDIO->SubChunk1ID, sizeof(char), 4, AUDIO->ARGUMENTS.OUTPUT);
-    fwrite(&AUDIO->SubChunk1Size, sizeof(int), 1, AUDIO->ARGUMENTS.OUTPUT);
-    fwrite(&AUDIO->AudioFormat, sizeof(short), 1, AUDIO->ARGUMENTS.OUTPUT);
-    fwrite(&AUDIO->ChannelNr, sizeof(short), 1, AUDIO->ARGUMENTS.OUTPUT);
-    fwrite(&AUDIO->SampleRate, sizeof(int), 1, AUDIO->ARGUMENTS.OUTPUT);
-    fwrite(&AUDIO->ByteRate, sizeof(int), 1, AUDIO->ARGUMENTS.OUTPUT);
-    fwrite(&AUDIO->BlockAlign, sizeof(short), 1, AUDIO->ARGUMENTS.OUTPUT);
-    fwrite(&AUDIO->BitsPerSample, sizeof(short), 1, AUDIO->ARGUMENTS.OUTPUT);
-    fwrite(AUDIO->SubChunk2ID, sizeof(char), 4, AUDIO->ARGUMENTS.OUTPUT);
-    fwrite(&AUDIO->SubChunk2Size, sizeof(int), 1, AUDIO->ARGUMENTS.OUTPUT);
+    fwrite(AUDIO->ChunkID, sizeof(char), 4, AUDIO->OUTPUT);
+    fwrite(&AUDIO->ChunkSize, sizeof(int), 1, AUDIO->OUTPUT);
+    fwrite(AUDIO->Format, sizeof(char), 4, AUDIO->OUTPUT);
+    fwrite(AUDIO->SubChunk1ID, sizeof(char), 4, AUDIO->OUTPUT);
+    fwrite(&AUDIO->SubChunk1Size, sizeof(int), 1, AUDIO->OUTPUT);
+    fwrite(&AUDIO->AudioFormat, sizeof(short), 1, AUDIO->OUTPUT);
+    fwrite(&AUDIO->ChannelNr, sizeof(short), 1, AUDIO->OUTPUT);
+    fwrite(&AUDIO->SampleRate, sizeof(int), 1, AUDIO->OUTPUT);
+    fwrite(&AUDIO->ByteRate, sizeof(int), 1, AUDIO->OUTPUT);
+    fwrite(&AUDIO->BlockAlign, sizeof(short), 1, AUDIO->OUTPUT);
+    fwrite(&AUDIO->BitsPerSample, sizeof(short), 1, AUDIO->OUTPUT);
+    fwrite(AUDIO->SubChunk2ID, sizeof(char), 4, AUDIO->OUTPUT);
+    fwrite(&AUDIO->SubChunk2Size, sizeof(int), 1, AUDIO->OUTPUT);
 
     for (unsigned int j = 0; j < AUDIO->SamplesPerChannel; j++)
         for (unsigned int i = 0; i < AUDIO->ChannelNr; i++)
-            fwrite(&AUDIO->Data[i][j], AUDIO->BitsPerSample / 8, 1, AUDIO->ARGUMENTS.OUTPUT);
+            fwrite(&AUDIO->Data[i][j], AUDIO->BitsPerSample / 8, 1, AUDIO->OUTPUT);
     
-    fclose(AUDIO->ARGUMENTS.OUTPUT);
+    fclose(AUDIO->OUTPUT);
 }

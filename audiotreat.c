@@ -7,22 +7,22 @@
 
 void GetInfo(audio_t AUDIO)
 {
-    fprintf(AUDIO.ARGUMENTS.OUTPUT, "riff tag       : \"%s\"\n", AUDIO.ChunkID);
-    fprintf(AUDIO.ARGUMENTS.OUTPUT, "riff size      : %i\n", AUDIO.ChunkSize);
-    fprintf(AUDIO.ARGUMENTS.OUTPUT, "wave tag       : \"%s\"\n", AUDIO.Format);
-    fprintf(AUDIO.ARGUMENTS.OUTPUT, "form tag       : \"%s\"\n", AUDIO.SubChunk1ID);
-    fprintf(AUDIO.ARGUMENTS.OUTPUT, "fmt_size       : %i\n", AUDIO.SubChunk1Size);
-    fprintf(AUDIO.ARGUMENTS.OUTPUT, "audio_format   : %i\n", AUDIO.AudioFormat);
-    fprintf(AUDIO.ARGUMENTS.OUTPUT, "num_channels   : %i\n", AUDIO.ChannelNr);
-    fprintf(AUDIO.ARGUMENTS.OUTPUT, "sample_rate    : %i\n", AUDIO.SampleRate);
-    fprintf(AUDIO.ARGUMENTS.OUTPUT, "byte_rate      : %i\n", AUDIO.ByteRate);
-    fprintf(AUDIO.ARGUMENTS.OUTPUT, "block_align    : %i\n", AUDIO.BlockAlign);
-    fprintf(AUDIO.ARGUMENTS.OUTPUT, "bits_per_sample: %i\n", AUDIO.BitsPerSample);
-    fprintf(AUDIO.ARGUMENTS.OUTPUT, "data tag       : \"%s\"\n", AUDIO.SubChunk2ID);
-    fprintf(AUDIO.ARGUMENTS.OUTPUT, "data size      : %i\n", AUDIO.SubChunk2Size);
-    fprintf(AUDIO.ARGUMENTS.OUTPUT, "samples/channel: %i\n", AUDIO.SamplesPerChannel);
+    fprintf(AUDIO.OUTPUT, "riff tag       : \"%s\"\n", AUDIO.ChunkID);
+    fprintf(AUDIO.OUTPUT, "riff size      : %i\n", AUDIO.ChunkSize);
+    fprintf(AUDIO.OUTPUT, "wave tag       : \"%s\"\n", AUDIO.Format);
+    fprintf(AUDIO.OUTPUT, "form tag       : \"%s\"\n", AUDIO.SubChunk1ID);
+    fprintf(AUDIO.OUTPUT, "fmt_size       : %i\n", AUDIO.SubChunk1Size);
+    fprintf(AUDIO.OUTPUT, "audio_format   : %i\n", AUDIO.AudioFormat);
+    fprintf(AUDIO.OUTPUT, "num_channels   : %i\n", AUDIO.ChannelNr);
+    fprintf(AUDIO.OUTPUT, "sample_rate    : %i\n", AUDIO.SampleRate);
+    fprintf(AUDIO.OUTPUT, "byte_rate      : %i\n", AUDIO.ByteRate);
+    fprintf(AUDIO.OUTPUT, "block_align    : %i\n", AUDIO.BlockAlign);
+    fprintf(AUDIO.OUTPUT, "bits_per_sample: %i\n", AUDIO.BitsPerSample);
+    fprintf(AUDIO.OUTPUT, "data tag       : \"%s\"\n", AUDIO.SubChunk2ID);
+    fprintf(AUDIO.OUTPUT, "data size      : %i\n", AUDIO.SubChunk2Size);
+    fprintf(AUDIO.OUTPUT, "samples/channel: %i\n", AUDIO.SamplesPerChannel);
 
-    fclose(AUDIO.ARGUMENTS.OUTPUT);
+    fclose(AUDIO.OUTPUT);
 }
 
 void Rev(audio_t *AUDIO)

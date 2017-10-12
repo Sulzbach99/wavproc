@@ -17,17 +17,8 @@ static int Comp(const void *a, const void *b)
     return 0;
 }
 
-void TreatArgs(int argc, char *argv[], char *OPTS, arguments_t *ARGUMENTS, float *Setting1, float *Setting2)
+void TreatArgs(int argc, char *argv[], char *OPTS, FILE **INPUT, FILE **OUTPUT, float *Setting1, float *Setting2)
 {
-    ARGUMENTS->INPUT = stdin;
-    ARGUMENTS->OUTPUT = stdout;
-    ARGUMENTS->Revert = 0;
-    ARGUMENTS->AutoVol = 0;
-    ARGUMENTS->Volume = 1.0;
-    ARGUMENTS->Aten = 0.5;
-    ARGUMENTS->Delay = 0;
-    ARGUMENTS->Wide = 1.0;
-
     for (unsigned int i = 0; i <= argc - 1; i++)
     {
         if (argv[i][0] == '-')
@@ -42,12 +33,12 @@ void TreatArgs(int argc, char *argv[], char *OPTS, arguments_t *ARGUMENTS, float
             {
                 case 'i':
                 {
-                    ARGUMENTS->INPUT = fopen(argv[i+1], "r");
+                    *INPUT = fopen(argv[i+1], "r");
                     break;
                 }
                 case 'o':
                 {
-                    ARGUMENTS->OUTPUT = fopen(argv[i+1], "w");
+                    *OUTPUT = fopen(argv[i+1], "w");
                     break;
                 }
                 case 'l':

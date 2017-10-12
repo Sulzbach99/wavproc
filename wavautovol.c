@@ -11,7 +11,10 @@ int main(int argc, char *argv[])
 {
     audio_t AUDIO;
 
-    TreatArgs(argc, argv, OPTS, &AUDIO.ARGUMENTS, NULL, NULL);
+    AUDIO.INPUT = stdin;
+    AUDIO.OUTPUT = stdout;
+
+    TreatArgs(argc, argv, OPTS, &AUDIO.INPUT, &AUDIO.OUTPUT, NULL, NULL);
 
     LoadAudio(&AUDIO);
 

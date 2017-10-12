@@ -23,15 +23,20 @@ int main(int argc, char *argv[])
 
     for (unsigned int j = 1; j <= AudNum; j++)
     {
+        AUDIO[j-1].INPUT = stdin;
+        AUDIO[j-1].OUTPUT = stdout;
+
         strcpy(argv[1], argv[j]);
-        TreatArgs(argc, argv, OPTS, &AUDIO[j-1].ARGUMENTS, NULL, NULL);
+        TreatArgs(argc, argv, OPTS, &AUDIO[j-1].INPUT, &AUDIO[j-1].OUTPUT, NULL, NULL);
     }
 
     for (unsigned int k = 0; k < AudNum; k++)
         LoadAudio(&AUDIO[k]);
 
     AUDIO = CatAudios(AUDIO, AudNum);
-    TreatArgs(argc, argv, OPTS, &AUDIO->ARGUMENTS, NULL, NULL);
+    AUDIO->INPUT = stdin;
+    AUDIO->OUTPUT = stdout;
+    TreatArgs(argc, argv, OPTS, &AUDIO->INPUT, &AUDIO->OUTPUT, NULL, NULL);
 
     Write(AUDIO);
 
