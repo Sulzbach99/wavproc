@@ -10,7 +10,7 @@
 int main(int argc, char *argv[])
 {
     audio_t AUDIO;
-    float Volume;
+    float Volume = 1.0;
 
     AUDIO.INPUT = stdin;
     AUDIO.OUTPUT = stdout;

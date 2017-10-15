@@ -17,15 +17,20 @@ static int Comp(const void *a, const void *b)
     return 0;
 }
 
+// Lê as opções utilizadas e define entrada, saída, e parâmetros (se houverem) para o filtro do áudio:
 void TreatArgs(int argc, char *argv[], char *OPTS, FILE **INPUT, FILE **OUTPUT, float *Setting1, float *Setting2)
 {
+    char Aux = 0;
+
     for (unsigned int i = 0; i <= argc - 1; i++)
     {
         if (argv[i][0] == '-')
         {
+            Aux++;
+
             if (!bsearch(&argv[i][1], OPTS, 4, 1, Comp))
             {
-                fprintf(stderr, "argument error\n");
+                fprintf(stderr, "Opcao invalida\n");
                 exit(EXIT_FAILURE);
             }
 
@@ -53,5 +58,11 @@ void TreatArgs(int argc, char *argv[], char *OPTS, FILE **INPUT, FILE **OUTPUT, 
                 }
             }
         }
+    }
+
+    if (!Aux)
+    {
+        fprintf(stderr, "Nenhuma opcao identificada\n");
+        exit(EXIT_FAILURE);
     }
 }

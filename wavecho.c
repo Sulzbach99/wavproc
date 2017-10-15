@@ -10,7 +10,8 @@
 int main(int argc, char *argv[])
 {
     audio_t AUDIO;
-    float Aten, Delay;
+    float Delay = 1000;
+    float Aten = 0.5;
 
     AUDIO.INPUT = stdin;
     AUDIO.OUTPUT = stdout;

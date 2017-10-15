@@ -5,6 +5,7 @@
 #include "access.h"
 #include "audiotreat.h"
 
+// Imprime informações obtidas do cabeçalho do áudio:
 void GetInfo(audio_t AUDIO)
 {
     fprintf(AUDIO.OUTPUT, "riff tag       : \"%s\"\n", AUDIO.ChunkID);
@@ -25,6 +26,7 @@ void GetInfo(audio_t AUDIO)
     fclose(AUDIO.OUTPUT);
 }
 
+// Reverte o áudio, por meio de um simples algoritmo iterativo:
 void Rev(audio_t *AUDIO)
 {
     signed short aux;
@@ -46,6 +48,7 @@ void Rev(audio_t *AUDIO)
     }
 }
 
+// Aumenta o volume, multiplicando cada amostra por um dado valor variável:
 void Vol(audio_t *AUDIO, float Volume)
 {
     for (unsigned int i = 0; i < AUDIO->ChannelNr; i++)
@@ -53,18 +56,21 @@ void Vol(audio_t *AUDIO, float Volume)
             AUDIO->Data[i][j] *= Volume;
 }
 
+// Aumenta o volume ao máximo possível, por meio de uma regra de três:
 void AutoVol(audio_t *AUDIO)
 {
     signed int max = AUDIO->Data[0][0];
 
     for (unsigned int i = 0; i < AUDIO->ChannelNr; i++)
         for (unsigned int j = 0; j < AUDIO->SamplesPerChannel; j++)
-            if (AUDIO->Data[i][j] > max)
+            if (abs(AUDIO->Data[i][j]) > max)
                 max = abs(AUDIO->Data[i][j]);
 
     Vol(AUDIO, 32767.0 / max);
 }
 
+// Efeito de eco, onde cada amostra é multiplicada por um dado valor Aten e somada
+// a uma amostra posterior de acordo com um dado valor Delay:
 void Echo(audio_t *AUDIO, float Aten, float Delay)
 {
     unsigned int Aux = (AUDIO->SampleRate * Delay) / 1000;
@@ -76,6 +82,7 @@ void Echo(audio_t *AUDIO, float Aten, float Delay)
     AutoVol(AUDIO);
 }
 
+// Estéreo ampliado:
 void Wide(audio_t *AUDIO, float k)
 {
     signed int diff;
@@ -91,6 +98,7 @@ void Wide(audio_t *AUDIO, float k)
     AutoVol(AUDIO);
 }
 
+// Concatenação de áudios:
 audio_t *CatAudios(audio_t *AUDIO, char AudNum)
 {
     audio_t *ptr = Malloc(sizeof(audio_t));
@@ -140,6 +148,7 @@ audio_t *CatAudios(audio_t *AUDIO, char AudNum)
     return ptr;
 }
 
+// Mixagem de áudios:
 audio_t *MixAudios(audio_t *AUDIO, char AudNum)
 {
     audio_t *ptr = Malloc(sizeof(audio_t));
@@ -153,11 +162,11 @@ audio_t *MixAudios(audio_t *AUDIO, char AudNum)
     ptr->SampleRate = 44100;
     ptr->BitsPerSample = 16;
     strcpy(ptr->SubChunk2ID, "data");
-    ptr->SubChunk2Size = AUDIO[0].SubChunk2Size;
+    ptr->SamplesPerChannel = AUDIO[0].SamplesPerChannel;
 
     for (unsigned int k = 1; k < AudNum; k++)
     {
-        if (ptr->ChannelNr > AUDIO[k].ChannelNr)
+        if (ptr->ChannelNr < AUDIO[k].ChannelNr)
             ptr->ChannelNr = AUDIO[k].ChannelNr;
 
         if (ptr->SamplesPerChannel < AUDIO[k].SamplesPerChannel)
@@ -178,7 +187,7 @@ audio_t *MixAudios(audio_t *AUDIO, char AudNum)
 
     for (unsigned int m = 0; m < AudNum; m++)
         for (unsigned int j = 0; j < AUDIO[m].SamplesPerChannel; j++)
-            for (unsigned int i = 0; i < ptr->ChannelNr; i++)
+            for (unsigned int i = 0; i < AUDIO[m].ChannelNr; i++)
                 ptr->Data[i][j] += AUDIO[m].Data[i][j];
 
     free(AUDIO);

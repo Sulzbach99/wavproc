@@ -10,7 +10,7 @@
 int main(int argc, char *argv[])
 {
     audio_t AUDIO;
-    float k;
+    float k = 1.0;
 
     AUDIO.INPUT = stdin;
     AUDIO.OUTPUT = stdout;
@@ -18,6 +18,12 @@ int main(int argc, char *argv[])
     TreatArgs(argc, argv, OPTS, &AUDIO.INPUT, &AUDIO.OUTPUT, &k, NULL);
 
     LoadAudio(&AUDIO);
+
+    if (AUDIO.ChannelNr != 2)
+    {
+        fprintf(stderr, "O efeito de estereo ampliado so pode ser usado em audios com 2 canais\n");
+        exit(EXIT_FAILURE);
+    }
 
     Wide(&AUDIO, k);
 

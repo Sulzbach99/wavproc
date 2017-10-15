@@ -10,7 +10,7 @@ void *Malloc(unsigned int size)
     void *ptr = malloc(size);
     if (!ptr)
     {
-        fprintf(stderr, "malloc error\n");
+        fprintf(stderr, "Erro ao alocar memoria\n");
         exit(EXIT_FAILURE);
     }
     return ptr;
@@ -46,7 +46,7 @@ void LoadAudio(audio_t *AUDIO)
         AUDIO->SubChunk1Size != 16         ||
         AUDIO->AudioFormat != 1             )
     {
-        fprintf(stderr, "audio error\n");
+        fprintf(stderr, "Arquivo corrompido ou nao suportado\n");
         exit(EXIT_FAILURE);
     }
 
