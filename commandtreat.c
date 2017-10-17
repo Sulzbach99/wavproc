@@ -1,6 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include "common.h"
 #include "commandtreat.h"
 
 static int Comp(const void *a, const void *b)

@@ -1,8 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "common.h"
-#include "access.h"
 #include "audiotreat.h"
 
 // Imprime informações obtidas do cabeçalho do áudio:
@@ -101,8 +96,10 @@ void Wide(audio_t *AUDIO, float k)
 // Concatenação de áudios:
 audio_t *CatAudios(audio_t *AUDIO, char AudNum)
 {
-    audio_t *ptr = Malloc(sizeof(audio_t));
-    unsigned long col = 0;
+    audio_t *ptr;
+    unsigned int col = 0;
+
+    ptr = Malloc(sizeof(audio_t));
 
     strcpy(ptr->ChunkID, "RIFF");
     strcpy(ptr->Format, "WAVE");
@@ -121,7 +118,7 @@ audio_t *CatAudios(audio_t *AUDIO, char AudNum)
     {
         ptr->SubChunk2Size += AUDIO[k].SubChunk2Size;
 
-        if (ptr->ChannelNr > AUDIO[k].ChannelNr)
+        if (ptr->ChannelNr < AUDIO[k].ChannelNr)
         {
             ptr->ChannelNr = AUDIO[k].ChannelNr;
             ptr->ByteRate = AUDIO[k].ByteRate;
@@ -131,15 +128,19 @@ audio_t *CatAudios(audio_t *AUDIO, char AudNum)
     ptr->ChunkSize = 36 + ptr->SubChunk2Size;
     ptr->SamplesPerChannel = ptr->SubChunk2Size / ptr->BlockAlign;
 
-    ptr->Data = Malloc(ptr->ChannelNr * sizeof(short*));
+    ptr->Data = Malloc(ptr->ChannelNr * sizeof(int*));
     for (unsigned int l = 0; l < ptr->ChannelNr; l++)
-        ptr->Data[l] = Malloc(ptr->SubChunk2Size / ptr->ChannelNr);
+        ptr->Data[l] = Malloc(ptr->SubChunk2Size / ptr->ChannelNr * 2);
+
+    for (unsigned int i = 0; i < ptr->ChannelNr; i++)
+        for (unsigned int j = 0; j < ptr->SamplesPerChannel; j++)
+            ptr->Data[i][j] = 0;
 
     for (unsigned int m = 0; m < AudNum; m++)
         for (unsigned int j = 0; j < AUDIO[m].SamplesPerChannel; j++)
         {
-            for (unsigned int i = 0; i < ptr->ChannelNr; i++)
-                ptr->Data[i][col] = AUDIO[m].Data[i][j];
+            for (unsigned int i = 0; i < AUDIO[m].ChannelNr; i++)
+                ptr->Data[i][col] += AUDIO[m].Data[i][j];
             col++;
         }
 
@@ -177,12 +178,12 @@ audio_t *MixAudios(audio_t *AUDIO, char AudNum)
     ptr->SubChunk2Size = ptr->SamplesPerChannel * ptr->BlockAlign;
     ptr->ChunkSize = 36 + ptr->SubChunk2Size;
 
-    ptr->Data = Malloc(ptr->ChannelNr * sizeof(short*));
+    ptr->Data = Malloc(ptr->ChannelNr * sizeof(int*));
     for (unsigned int l = 0; l < ptr->ChannelNr; l++)
-        ptr->Data[l] = Malloc(ptr->SubChunk2Size / ptr->ChannelNr);
+        ptr->Data[l] = Malloc(ptr->SubChunk2Size / ptr->ChannelNr * 2);
 
     for (unsigned int i = 0; i < ptr->ChannelNr; i++)
-        for (unsigned int j = 0; j < ptr->SubChunk2Size / ptr->BlockAlign; j++)
+        for (unsigned int j = 0; j < ptr->SamplesPerChannel; j++)
             ptr->Data[i][j] = 0;
 
     for (unsigned int m = 0; m < AudNum; m++)

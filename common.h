@@ -1,6 +1,9 @@
 #ifndef __COMMON__
 #define __COMMON__
 
+#include <stdio.h>
+#include <stdlib.h>
+
 // Struct que armazena e organiza todos os dados de um áudio:
 typedef struct audio
     {

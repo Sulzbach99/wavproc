@@ -1,5 +1,6 @@
 # Variáveis:
-CFLAGS =		-Wall
+CC? =			gcc
+CFLAGS =		-Wall -g
 OBJS =			access.o audiotreat.o commandtreat.o
 HEADS =			common.h access.h audiotreat.h commandtreat.h
 
