@@ -48,7 +48,13 @@ void Vol(audio_t *AUDIO, float Volume)
 {
     for (unsigned int i = 0; i < AUDIO->ChannelNr; i++)
         for (unsigned int j = 0; j < AUDIO->SamplesPerChannel; j++)
+        {
             AUDIO->Data[i][j] *= Volume;
+            if (AUDIO->Data[i][j] > 32767)
+                AUDIO->Data[i][j] = 32767;
+            else if (AUDIO->Data[i][j] < -32768)
+                AUDIO->Data[i][j] = -32768;
+        }
 }
 
 // Aumenta o volume ao máximo possível, por meio de uma regra de três:
@@ -130,7 +136,7 @@ audio_t *CatAudios(audio_t *AUDIO, char AudNum)
 
     ptr->Data = Malloc(ptr->ChannelNr * sizeof(int*));
     for (unsigned int l = 0; l < ptr->ChannelNr; l++)
-        ptr->Data[l] = Malloc(ptr->SubChunk2Size / ptr->ChannelNr * 2);
+        ptr->Data[l] = Malloc(ptr->SamplesPerChannel * sizeof(int));
 
     for (unsigned int i = 0; i < ptr->ChannelNr; i++)
         for (unsigned int j = 0; j < ptr->SamplesPerChannel; j++)
@@ -180,7 +186,7 @@ audio_t *MixAudios(audio_t *AUDIO, char AudNum)
 
     ptr->Data = Malloc(ptr->ChannelNr * sizeof(int*));
     for (unsigned int l = 0; l < ptr->ChannelNr; l++)
-        ptr->Data[l] = Malloc(ptr->SubChunk2Size / ptr->ChannelNr * 2);
+        ptr->Data[l] = Malloc(ptr->SamplesPerChannel * sizeof(int));
 
     for (unsigned int i = 0; i < ptr->ChannelNr; i++)
         for (unsigned int j = 0; j < ptr->SamplesPerChannel; j++)

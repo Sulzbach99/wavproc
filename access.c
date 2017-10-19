@@ -49,7 +49,7 @@ void LoadAudio(audio_t *AUDIO)
     // Alocação dinâmica de uma matriz onde cada linha é um canal e cada coluna é uma amostra:
     AUDIO->Data = Malloc(AUDIO->ChannelNr * sizeof(int*));
     for (unsigned int k = 0; k < AUDIO->ChannelNr; k++)
-        AUDIO->Data[k] = Malloc(AUDIO->SubChunk2Size / AUDIO->ChannelNr * 2);
+        AUDIO->Data[k] = Malloc(AUDIO->SamplesPerChannel * sizeof(int));
 
     // Leitura de cada elemento da matriz:
     for (unsigned int j = 0; j < AUDIO->SamplesPerChannel; j++)
