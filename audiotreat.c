@@ -62,7 +62,7 @@ void Vol(audio_t *AUDIO, float Volume)
 // Aumenta o volume ao máximo possível, por meio de uma regra de três:
 void AutoVol(audio_t *AUDIO)
 {
-    signed int max = AUDIO->Data[0][0];
+    signed int max = abs(AUDIO->Data[0][0]);
 
     for (unsigned int i = 0; i < AUDIO->ChannelNr; i++)
         for (unsigned int j = 0; j < AUDIO->SamplesPerChannel; j++)
