@@ -150,8 +150,6 @@ audio_t *CatAudios(audio_t *AUDIO, char AudNum)
             col++;
         }
 
-    free(AUDIO);
-
     return ptr;
 }
 
@@ -196,8 +194,6 @@ audio_t *MixAudios(audio_t *AUDIO, char AudNum)
         for (unsigned int j = 0; j < AUDIO[m].SamplesPerChannel; j++)
             for (unsigned int i = 0; i < AUDIO[m].ChannelNr; i++)
                 ptr->Data[i][j] += AUDIO[m].Data[i][j];
-
-    free(AUDIO);
 
     return ptr;
 }

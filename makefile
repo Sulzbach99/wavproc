@@ -1,6 +1,6 @@
 # Variáveis:
 CC =			gcc
-CFLAGS =		-Wall -g
+CFLAGS =		-Wall
 OBJS =			access.o audiotreat.o commandtreat.o
 HEADS =			common.h access.h audiotreat.h commandtreat.h
 
@@ -37,5 +37,5 @@ clean:
 				-rm access.o audiotreat.o commandtreat.o wavinfo.o wavrev.o wavvol.o wavautovol.o wavecho.o wavwide.o wavcat.o wavmix.o
 
 # Remove todos os binários:
-purge: clean
+purge:			clean
 				-rm wavinfo wavrev wavvol wavautovol wavecho wavwide wavcat wavmix
