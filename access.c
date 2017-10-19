@@ -1,3 +1,5 @@
+//Lucas Sulzbach
+//GRR20171595
 #include "access.h"
 
 // Função que chama um 'malloc' simples, mas verifica se a operação foi bem sucedida antes de prosseguir:

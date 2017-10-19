@@ -1,3 +1,5 @@
+//Lucas Sulzbach
+//GRR20171595
 #ifndef __COMMANDTREAT__
 #define __COMMANDTREAT__
 

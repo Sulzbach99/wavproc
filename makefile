@@ -1,3 +1,6 @@
+#Lucas Sulzbach
+#GRR20171595
+
 # Variáveis:
 CC =			gcc
 CFLAGS =		-Wall

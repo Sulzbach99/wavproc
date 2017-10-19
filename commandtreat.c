@@ -1,3 +1,5 @@
+//Lucas Sulzbach
+//GRR20171595
 #include "commandtreat.h"
 
 static int Comp(const void *a, const void *b)

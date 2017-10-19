@@ -1,3 +1,5 @@
+//Lucas Sulzbach
+//GRR20171595
 #include "audiotreat.h"
 
 // Imprime informações obtidas do cabeçalho do áudio:

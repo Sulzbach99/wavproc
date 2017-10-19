@@ -1,3 +1,5 @@
+//Lucas Sulzbach
+//GRR20171595
 #include <string.h>
 #include "common.h"
 #include "commandtreat.h"
