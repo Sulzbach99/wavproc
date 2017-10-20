@@ -14,8 +14,8 @@ int main(int argc, char *argv[])
     unsigned short AudNum = 0;
 
     // Contagem dos áudios de entrada:
-    for (unsigned int i = 1; i < argc - 1; i++)
-        if (strstr(argv[i], ".wav"))
+    for (unsigned int i = 1; i < argc; i++)
+        if (strlen(argv[i]) > 1 && argv[i][0] != '-' && strcmp(argv[i-1], "-o"))
             AudNum++;
 
     AUDIO = Malloc(AudNum * sizeof(audio_t));
